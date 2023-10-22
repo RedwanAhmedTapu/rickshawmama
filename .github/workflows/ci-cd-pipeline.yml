@@ -30,5 +30,5 @@ jobs:
       - name: Push Docker Image
         run: |
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker tag rickshawmama-app ${{ secrets.DOCKERHUB_USERNAME }}/rickshawmama-app:16
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rickshawmama-app:16
+          docker tag rickshawmama-app ${{ secrets.DOCKERHUB_USERNAME }}/tap6/rickshawmama-app:16
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/tap6/rickshawmama-app:16
