@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3000",
+    "serve": "vite --port 3000",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -15,13 +15,14 @@
     "axios": "^1.5.1",
     "bingmaps-react": "^1.2.10",
     "chart.js": "^4.4.0",
+    "curl": "^0.1.4",
     "jwt-decode": "^3.1.2",
     "leaflet": "^1.9.4",
+    "package-name": "^0.1.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-geocode": "^1.0.0-alpha.1",
-    "react-google-maps": "^9.4.5",
     "react-leaflet": "^4.2.1",
     "react-router-dom": "^6.16.0"
   },
@@ -36,6 +37,6 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "postcss": "^8.4.30",
     "tailwindcss": "^3.3.3",
-    "vite": "^4.4.5"
+    "vite": "^4.5.0"
   }
 }
