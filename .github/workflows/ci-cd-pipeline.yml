@@ -25,10 +25,10 @@ jobs:
         run: npm run build
 
       - name: Build Docker Image
-        run:  docker build -t tap6/rickshawmama-app:16 .  
+        run: docker build -t rickshawmama-app .
 
       - name: Push Docker Image
         run: |
           echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-          docker tag rickshawmama-app ${{ secrets.DOCKERHUB_USERNAME }}/tap6/rickshawmama-app:16
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/tap6/rickshawmama-app:16
+          docker tag rickshawmama-app ${{ secrets.DOCKERHUB_USERNAME }}/rickshawmama-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/rickshawmama-app:latest
