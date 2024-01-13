@@ -2,9 +2,13 @@ import Rickshaw from "../imgs/rickshaw.png";
 import Corona from "../imgs/5.png";
 import Star from "../imgs/star.png";
 import DemandVsMonthsChart from "./DemandVsMonthsChart";
-import RiderTracker from "./RiderTracker";
+// import RiderTracker from "./RiderTracker";
+import { useNavigate } from "react-router-dom";
+import TrigonometryQuiz from "./TrigonometryQuiz";
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const { t } = useTranslation();
   const data = [
     { month: 'Jan', demand: 100 },
     { month: 'Feb', demand: 150 },
@@ -19,7 +23,8 @@ const Home = () => {
     { month: 'nov', demand: 150 },
     { month: 'dec', demand: 90 },
   ];
-
+  const navigate=useNavigate();
+console.log(t)
   return (
     <>
      <div className="w-[55rem] h-[40rem] rotate-180 fixed -top-52 -right-44    overflow-hidden">
@@ -28,22 +33,28 @@ const Home = () => {
       <div className="w-[55rem] h-[40rem] rotate-180 fixed  -top-[22rem] -left-[27rem]    overflow-hidden">
         <img src={Star} className="w-full h-full   " />
       </div>
-    <div className="w-full h-screen flex_center ">
-      <div className="w-[50%] h-full flex_col_center gap-y-16">
-        <div className="text-[#F8A339] text-6xl font-bold">RICKSHAWMAMA</div>
-        <div className="w-96 h-24 flex_center justify-start gap-x-4">
-            <div className="w-44 h-12 bg-[#F8A339] text-black font-semibold flex_center">Make Income</div>
-            <div className="w-44 h-12 border-[0.1rem] border-[#F8A339] text-[#F8A339] font-semibold flex_center">Make Ride</div>
+    <div className="w-screen  h-screen   bg-transparent relative top-[5rem] right-0  max-[999px]:flex_col_center flex_center  ">
+      <div className=" max-[999px]:w-full w-[50%] h-full flex_col_center gap-y-16">
+        <div className="text-[#F8A339] max-[459px]:text-4xl text-5xl lg:text-6xl font-bold uppercase">Rickshawmama</div>
+        <div className="w-96 h-24 max-[390px]:w-64 flex_center justify-start gap-x-4 z-20">
+            <div className="w-44 h-12 bg-[#F8A339] text-black font-semibold flex_center" onClick={()=>{navigate("/rickshawpuller-registration")}}>Make Income</div>
+            <div className="w-44 h-12 border-[0.1rem] border-[#F8A339] text-[#F8A339] font-semibold flex_center" onClick={()=>{navigate("/rider-login")}}>Make Ride</div>
 
         </div>
       </div>
-      <div className="w-[50%] h-full z-10">
+      <div className=" max-[999px]:w-full w-[50%] h-full  z-10">
         <img src={Rickshaw} className="w-full h-full object-cover "/>
       </div>
 
     </div>
-    <DemandVsMonthsChart data={data}/>
-    <RiderTracker/>
+    
+   
+  
+  <DemandVsMonthsChart data={data}/>
+    {/* <RiderTracker/> */}
+    <TrigonometryQuiz/>
+  
+ 
     </>
   );
 };

@@ -37,7 +37,7 @@ const Signup = () => {
             alert("please fill all the data");
           } else {
             await fetch(
-              "http://localhost:5000/user/signup",
+              "http://localhost:5001/user/signup",
               {
                 method: "POST",
                 headers: {
@@ -73,7 +73,7 @@ const Signup = () => {
         const { email  } = user;
     
         await fetch(
-          "http://localhost:5000/verify-email",
+          "http://localhost:5001/verify-email",
           {
             method: "POST",
             headers: {
@@ -99,7 +99,7 @@ const Signup = () => {
         console.log("codecamp", `${userEmail + otpData}`);
         try {
           const res = await fetch(
-            "http://localhost:5000/auth/googleAuth-verfication",
+            "http://localhost:5001/auth/googleAuth-verfication",
             {
               method: "POST",
               headers: {
@@ -126,7 +126,7 @@ const Signup = () => {
     
         try {
           const res = await fetch(
-            "http://localhost:5000/auth/registration",
+            "http://localhost:5001/auth/registration",
             {
               method: "POST",
               headers: {
@@ -150,10 +150,10 @@ const Signup = () => {
   return (
    
     <div className="w-full h-screen flex_center    overflow-hidden ">
-      <div className="w-[70%] h-[70%]   flex_col_center gap-y-16  rounded-lg shadow-md shadow-slate-950 relative p-4">
+      <div className="sm:w-[70%] sm:h-[70%]  w-[90%] h-[90%]  flex_col_center gap-y-16  rounded-lg shadow-md shadow-slate-950 relative p-4">
 
-        <div className="w-full h-12 flex_center text-6xl font-mono text-white font-bold">
-          create account
+        <div className="w-full h-12 flex_center text-xl md:text-4xl font-mono text-white font-bold">
+          Create Account As Rider
         </div>
         <div className="w-full h-12 flex_center gap-x-4">
           <input

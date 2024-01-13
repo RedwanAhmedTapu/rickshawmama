@@ -1,0 +1,16 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+
+import enTranslation from './path-to-your-locales/en.json';
+import bnTranslation from './path-to-your-locales/bn.json';
+
+const resources = {
+  en: {
+    translation: enTranslation,
+  },
+  bn: {
+    translation: bnTranslation,
+  },
+};
+
+// ... rest of the configuration ...

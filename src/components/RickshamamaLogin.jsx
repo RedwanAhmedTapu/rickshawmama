@@ -7,13 +7,14 @@ import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
-const Login = () => {
+const RickshamamaLogin = () => {
   const [user, setUser] = useState({
-    email: "",
+    nid: "",
     password: "",
   });
 
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({
@@ -21,36 +22,36 @@ const Login = () => {
       [name]: value,
     });
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { email, password } = user;
-      console.log(email, password);
-      if (email.trim() === "" || password.trim() === "") {
-        alert("please fill all the data");
+      const { nid, password } = user;
+
+      if (nid.trim() === "" || password.trim() === "") {
+        alert("Please fill in all the data");
       } else {
-         await axios
-          .post("http://localhost:5001/user/login", user)
+        await axios
+          .post("http://localhost:5001/user/rickshawpullerlogin", user)
           .then((res) => {
             console.log(res.data);
 
             if (res.data.message === "not any user") {
-              alert("wrong password and email");
+              alert("Wrong password and National ID");
             } else {
               if (res.data.token) {
                 console.log(res.data.token);
                 axios.defaults.headers.common[
                   "Authorization"
                 ] = ` ${res.data.token}`;
-                // setToken(true);
 
-                const { email, fname, isLoggedin, isVerified, lname } =
+                const { nid, fname, isLoggedin, isVerified, lname } =
                   res.data.user;
-                console.log({ email, fname, isLoggedin, isVerified, lname });
+                console.log({ nid, fname, isLoggedin, isVerified, lname });
                 localStorage.setItem(
                   "loggedUser",
                   JSON.stringify({
-                    email,
+                    nid,
                     fname,
                     isLoggedin,
                     isVerified,
@@ -58,10 +59,10 @@ const Login = () => {
                   })
                 );
 
-                if (email === "admin@gmail.com") {
+                if (nid === "admin") {
                   navigate("/adminDashboard");
                 } else {
-                  navigate(`/rickshawpuller-tracking?userEmail=${email}`);
+                  navigate(`/rickshawpuller-dashboard?userNid=${nid}`);
                 }
               } else {
                 delete axios.defaults.headers.common["Authorization"];
@@ -89,12 +90,11 @@ const Login = () => {
           });
       }
     } catch (error) {
-      console.error("Failed to login :", error);
+      console.error("Failed to login:", error);
     }
   };
-  // for google signin
-  const handleVerificationAuth = async (otpData, userEmail) => {
-    console.log("codecamp", `${userEmail + otpData}`);
+
+  const handleVerificationAuth = async (otpData, userNid) => {
     try {
       const res = await fetch(
         "http://localhost:5001/auth/googleAuth-verfication",
@@ -103,7 +103,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userEmail, otpData }),
+          body: JSON.stringify({ userNid, otpData }),
         }
       );
 
@@ -111,9 +111,9 @@ const Login = () => {
       console.log(data);
 
       if (data.message === "Email verified successfully") {
-        navigate(`/?userEmail=${userEmail}`);
+        navigate(`/?userNid=${userNid}`);
       } else if (data.message === "Invalid verification code") {
-        navigate(`/?userEmail=${userEmail}`);
+        navigate(`/?userNid=${userNid}`);
       } else {
         navigate("/login");
       }
@@ -122,7 +122,7 @@ const Login = () => {
     }
   };
 
-  const handleAuthuser = async (userData) => {
+  const handleAuthUser = async (userData) => {
     try {
       const res = await fetch(
         "http://localhost:5001/auth/registration",
@@ -138,31 +138,31 @@ const Login = () => {
       const data = await res.json();
       console.log(data);
       if (data) {
-        await handleVerificationAuth(data.message, userData.email);
+        await handleVerificationAuth(data.message, userData.nid);
       }
     } catch (error) {
       console.error("Error during user registration:", error);
     }
   };
+
   return (
     <div className="w-full h-screen text-white max-[800px]:flex_col_center flex_center">
-
       <div className="flex_center w-[50%] h-full ">
-        <img src={WhiteRickshaw} className="w-[100%] h-[100%] " />
+        <img src={WhiteRickshaw} className="w-[100%] h-[100%]  " />
       </div>
       <div className="flex_center w-[50%] h-full ">
         <div className="loginrightDiv w-72 h-96 flex_col_around bg-slate-100 relative rounded-lg shadow-2xl shadow-slate-300 ">
           <div className="w-full h-12 text-start text-4xl text-[#3C1263] font-extrabold pl-4 ">
-            sign in
+            Sign In
           </div>
           <input
-            type="email"
-            name="email"
-            id="email"
-            value={user && user.email}
+            type="text"
+            name="nid"
+            id="nid"
+            value={user && user.nid}
             onChange={handleChange}
             className="w-[90%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
-            placeholder="Enter Email..."
+            placeholder="Enter National ID..."
           />
           <input
             type="password"
@@ -174,8 +174,8 @@ const Login = () => {
             placeholder="Enter password..."
           />
           <div className="w-[90%] h-8 flex_center rounded-lg text-gray-400 bg-[#dbdbdb]">
-            {" "}
-            <GoogleOAuthProvider clientId="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com">
+          <GoogleOAuthProvider clientId="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com">
+
               <div className="w-full h-full flex_center bg-white rounded-lg">
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
@@ -187,17 +187,17 @@ const Login = () => {
                     const fname = family_name;
                     const lname = given_name;
 
-                    handleAuthuser({ fname, lname, email });
+                    handleAuthUser({ fname, lname, nid: email });
                     localStorage.setItem(
                       "loggedUser",
-                      JSON.stringify({ email, fname, lname })
+                      JSON.stringify({ nid: email, fname, lname })
                     );
                   }}
                   onError={() => {
                     console.log("Login Failed");
                   }}
                   logo_alignment="center"
-                  text="continue_with"
+                  text="Continue with Google"
                   type="standard"
                   className="w-full h-full"
                   useOneTap="true"
@@ -206,9 +206,11 @@ const Login = () => {
               </div>
             </GoogleOAuthProvider>
           </div>
-          <div className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg " onClick={handleSubmit}>
-           
-            sign in
+          <div
+            className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg "
+            onClick={handleSubmit}
+          >
+            Sign In
           </div>
         </div>
       </div>
@@ -216,4 +218,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default RickshamamaLogin;
