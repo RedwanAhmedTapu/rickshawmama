@@ -4,7 +4,7 @@ import Star from "../imgs/star.png";
 import DemandVsMonthsChart from "./DemandVsMonthsChart";
 // import RiderTracker from "./RiderTracker";
 import { useNavigate } from "react-router-dom";
-import TrigonometryQuiz from "./TrigonometryQuiz";
+// import TrigonometryQuiz from "./TrigonometryQuiz";
 import { useTranslation } from 'react-i18next';
 
 const Home = () => {
@@ -52,7 +52,7 @@ console.log(t)
   
   <DemandVsMonthsChart data={data}/>
     {/* <RiderTracker/> */}
-    <TrigonometryQuiz/>
+    {/* <TrigonometryQuiz/> */}
   
  
     </>
