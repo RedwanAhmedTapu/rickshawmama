@@ -76,7 +76,7 @@ const RickshawpullerRegistration = () => {
       const formData = new FormData();
       formData.append('photo', file);
 
-      const response = await axios.post(`${serverUrl}/${endpoint}`, formData);
+      const response = await axios.post(`${serverUrl}${endpoint}`, formData);
 
       return response.data.imageUrl;
     } catch (error) {
