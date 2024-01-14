@@ -33,6 +33,7 @@ const RoadTrackingSystem = () => {
   const [rickshawPullers, setRickshawPullers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [socketId, setSocketId] = useState(null); // State to hold the socket ID
+  const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
 
   const customIcon = new Icon({
     iconUrl: Location,
@@ -49,10 +50,33 @@ const RoadTrackingSystem = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const userEmail = searchParams.get("userEmail");
-  console.log(userEmail);
+
+  const checkLocationPermission = async () => {
+    try {
+      const permissionStatus = await navigator.permissions.query({
+        name: "geolocation",
+      });
+
+      if (permissionStatus.state === "granted") {
+        setLocationPermissionGranted(true);
+      } else {
+        const permissionResult = await navigator.permissions.request({
+          name: "geolocation",
+        });
+
+        if (permissionResult.state === "granted") {
+          setLocationPermissionGranted(true);
+        } else {
+          console.error("Geolocation permission denied.");
+          // Handle denial of geolocation permission
+        }
+      }
+    } catch (error) {
+      console.error("Error checking geolocation permission:", error);
+    }
+  };
 
   const checkRickshawPullers = async (location) => {
-    console.log(location);
     try {
       const response = await fetch(`${serverUrl}/getNearbyRickshawPullers`, {
         method: "POST",
@@ -71,7 +95,6 @@ const RoadTrackingSystem = () => {
       } else {
         // Update the rickshaw puller locations and routes in the state
         socket.on("rickshawPullerUpdate", (updatedPullers) => {
-          console.log(updatedPullers)
           setRickshawPullers((prevPullers) =>
             updatedPullers.map((updatedPuller) => {
               const existingPuller = prevPullers.find(
@@ -82,7 +105,6 @@ const RoadTrackingSystem = () => {
               const updatedRoute = existingPuller
                 ? [...existingPuller.route, updatedPuller.location.coordinates]
                 : [updatedPuller.location.coordinates];
-                console.log(updatedRoute)
 
               return {
                 ...updatedPuller,
@@ -92,54 +114,56 @@ const RoadTrackingSystem = () => {
           );
         });
       }
-
-      return () => {
-        // Disconnect from the Socket.io server when the component is unmounted
-        socket.disconnect();
-      };
     } catch (error) {
       console.error("Error checking rickshaw pullers:", error);
     }
   };
 
   useEffect(() => {
-    socket.on("connect", () => {
-      // getCurrentPosition will now use the correct socket.id
-      setLoading(false);
-    });
-    const getCurrentPosition = async () => {
-      try {
-        const pos = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
+    checkLocationPermission();
+  }, []);
+
+  useEffect(() => {
+    if (locationPermissionGranted) {
+      // If location permission is granted, proceed with getting the current position
+      socket.on("connect", () => {
+        setLoading(false);
+      });
+
+      const getCurrentPosition = async () => {
+        try {
+          const pos = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true,
+            });
           });
-        });
 
-        const { latitude, longitude } = pos.coords;
-        setPosition([latitude, longitude]);
-        setSocketId(socket.id); // Set the socket ID after it is available
+          const { latitude, longitude } = pos.coords;
+          setPosition([latitude, longitude]);
+          setSocketId(socket.id); // Set the socket ID after it is available
 
-        // Call the server to check for rickshaw pullers within 1km radius
-        checkRickshawPullers({
-          lat: latitude,
-          lon: longitude,
-          socketId: socket.id, // Use the socket ID obtained from the state
-        });
-      } catch (error) {
-        console.error("Error getting current position:", error);
-      }
-    };
+          // Call the server to check for rickshaw pullers within 1km radius
+          checkRickshawPullers({
+            lat: latitude,
+            lon: longitude,
+            socketId: socket.id, // Use the socket ID obtained from the state
+          });
+        } catch (error) {
+          console.error("Error getting current position:", error);
+        }
+      };
 
-    // Listen for the 'connect' event to ensure that the socket connection is established
-    getCurrentPosition();
-    const intervalId = setInterval(getCurrentPosition, 5000);
+      // Listen for the 'connect' event to ensure that the socket connection is established
+      getCurrentPosition();
+      const intervalId = setInterval(getCurrentPosition, 5000);
 
-    return () => {
-      // Disconnect from the Socket.io server when the component is unmounted
-      socket.disconnect();
-       clearInterval(intervalId);
-    };
-  }, [socketId, userEmail]); // Include socketId and userEmail in the dependency array
+      return () => {
+        // Disconnect from the Socket.io server when the component is unmounted
+        socket.disconnect();
+        clearInterval(intervalId);
+      };
+    }
+  }, [locationPermissionGranted, socketId, userEmail]);
 
   const handleInputChange = (input, setLocation, setSuggestions) => {
     setLocation((prevLocation) => ({ ...prevLocation, areaName: input }));
