@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const RickshawpullerRegistration = () => {
@@ -20,7 +21,7 @@ const RickshawpullerRegistration = () => {
     lon: 'Loading...',
   });
   const serverUrl = "https://backendofrickshawmama.onrender.com";
-
+const navigate=useNavigate();
 
   useEffect(() => {
     const watchUserLocation = async () => {
@@ -106,7 +107,9 @@ const RickshawpullerRegistration = () => {
       const response = await axios.post(`${serverUrl}/rickshawpuller/registration`, formDataWithLocation);
 
       // Handle the response as needed (e.g., show a success message)
+      navigate("/rickshawmama-login");
       console.log('Registration successful', response.data);
+
     } catch (error) {
       // Handle errors (e.g., show an error message)
       console.error('Error registering Rickshawpuller', error);

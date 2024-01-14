@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, HashRouter as Router, Routes } from "react-router-dom";
 
 
 import Nav from "./components/Nav";
@@ -11,11 +11,12 @@ import RickshawpullerRegistration from "./components/RickshawpullerRegistration"
 import RiderTracker from "./components/RiderTracker";
 import RickshawpullerDashboard from "./components/RickshawpullerDashboard";
 const App = () => {
+  const base="/";
   return (
     <>
      
 
-      <Router>
+      <Router basename={base}>
         <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
