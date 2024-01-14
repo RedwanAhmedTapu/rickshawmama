@@ -21,6 +21,8 @@ const Login = () => {
       [name]: value,
     });
   };
+  const serverUrl = "https://backendofrickshawmama.onrender.com";
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -30,7 +32,7 @@ const Login = () => {
         alert("please fill all the data");
       } else {
          await axios
-          .post("http://localhost:5001/user/login", user)
+          .post(`${serverUrl}/user/login`, user)
           .then((res) => {
             console.log(res.data);
 
@@ -97,7 +99,7 @@ const Login = () => {
     console.log("codecamp", `${userEmail + otpData}`);
     try {
       const res = await fetch(
-        "http://localhost:5001/auth/googleAuth-verfication",
+        `${serverUrl}/auth/googleAuth-verfication`,
         {
           method: "POST",
           headers: {
@@ -125,7 +127,7 @@ const Login = () => {
   const handleAuthuser = async (userData) => {
     try {
       const res = await fetch(
-        "http://localhost:5001/auth/registration",
+        `${serverUrl}/auth/registration`,
         {
           method: "POST",
           headers: {

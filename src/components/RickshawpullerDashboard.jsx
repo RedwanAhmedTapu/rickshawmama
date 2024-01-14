@@ -10,8 +10,11 @@ const RickshawpullerDashboard = () => {
   const searchParams = new URLSearchParams(location.search);
   const userNid = searchParams.get("userNid");
 
+  const server='https://backendofrickshawmama.onrender.com';
+
+
   useEffect(() => {
-    const socket = io("http://localhost:5001"); // Replace with your Socket.IO server URL
+    const socket = io(server); // Replace with your Socket.IO server URL
 
     const emitRickshawmamaLocation = async () => {
       try {
