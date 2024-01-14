@@ -23,6 +23,7 @@ const RickshamamaLogin = () => {
     });
   };
 
+  const server='https://backendofrickshawmama.onrender.com';
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -32,7 +33,7 @@ const RickshamamaLogin = () => {
         alert("Please fill in all the data");
       } else {
         await axios
-          .post("http://localhost:5001/user/rickshawpullerlogin", user)
+          .post(`${server}/user/rickshawpullerlogin`, user)
           .then((res) => {
             console.log(res.data);
 
@@ -97,7 +98,7 @@ const RickshamamaLogin = () => {
   const handleVerificationAuth = async (otpData, userNid) => {
     try {
       const res = await fetch(
-        "http://localhost:5001/auth/googleAuth-verfication",
+        `${server}/auth/googleAuth-verfication`,
         {
           method: "POST",
           headers: {
@@ -125,7 +126,7 @@ const RickshamamaLogin = () => {
   const handleAuthUser = async (userData) => {
     try {
       const res = await fetch(
-        "http://localhost:5001/auth/registration",
+        `${server}/auth/registration`,
         {
           method: "POST",
           headers: {

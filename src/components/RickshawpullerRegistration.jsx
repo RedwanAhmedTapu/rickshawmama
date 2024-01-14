@@ -19,6 +19,8 @@ const RickshawpullerRegistration = () => {
     lat: 'Loading...',
     lon: 'Loading...',
   });
+  const serverUrl = "https://backendofrickshawmama.onrender.com";
+
 
   useEffect(() => {
     const watchUserLocation = async () => {
@@ -74,7 +76,7 @@ const RickshawpullerRegistration = () => {
       const formData = new FormData();
       formData.append('photo', file);
 
-      const response = await axios.post(`http://localhost:5001${endpoint}`, formData);
+      const response = await axios.post(`${serverUrl}${endpoint}`, formData);
 
       return response.data.imageUrl;
     } catch (error) {
@@ -101,7 +103,7 @@ const RickshawpullerRegistration = () => {
       };
 
       // Make an HTTP POST request to your backend endpoint
-      const response = await axios.post('http://localhost:5001/rickshawpuller/registration', formDataWithLocation);
+      const response = await axios.post(`${serverUrl}/rickshawpuller/registration`, formDataWithLocation);
 
       // Handle the response as needed (e.g., show a success message)
       console.log('Registration successful', response.data);

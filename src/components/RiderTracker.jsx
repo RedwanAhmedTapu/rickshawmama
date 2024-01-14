@@ -42,7 +42,8 @@ const RoadTrackingSystem = () => {
     iconUrl: userLocationMarker,
     iconSize: [52, 52],
   });
-  const serverUrl = "http://localhost:5001";
+
+  const serverUrl = "https://backendofrickshawmama.onrender.com";
   const socket = socketIOClient(serverUrl);
 
   const location = useLocation();
