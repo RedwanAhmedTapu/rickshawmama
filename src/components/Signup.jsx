@@ -160,7 +160,7 @@ const Signup = () => {
             type="text"
             name="fname"
             id="fname"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            className="w-[40%] px-3 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-xl placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
             placeholder="Enter your firstname..."
             value={user && user.fname}
             onChange={handleChange}
@@ -170,7 +170,7 @@ const Signup = () => {
             type="text"
              name="lname"
                 id="lname"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            className="w-[40%] px-3 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-xl placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
             placeholder="Enter your lastname..."
             value={user && user.lname}
             onChange={handleChange}
@@ -183,7 +183,7 @@ const Signup = () => {
             type="email"
             name="email"
             id="email"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            className="w-[40%] px-3 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-xl placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
             placeholder="Enter your email..."
             value={user && user.email}
             onChange={handleChange}
@@ -191,7 +191,7 @@ const Signup = () => {
           />
           <input
             type="password"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            className="w-[40%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg max-[500px]:placeholder:text-xl  ring-2 ring-white"
             
             placeholder="Enter your password..."
             name="password"
