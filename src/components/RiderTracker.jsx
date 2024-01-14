@@ -381,7 +381,7 @@ const RoadTrackingSystem = () => {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <div className="w-[70%] h-full overflow-auto">
+          <div className="w-[70%] h-full -z-20 overflow-auto">
             <MapContainer
               center={position}
               zoom={15}
@@ -440,7 +440,7 @@ const RoadTrackingSystem = () => {
         )}
       </div>
 
-      {modalDistance && (
+      {(modalDistance && startLocation && endLocation) && (
         <div className="w-full h-full flex_center absolute bottom-52 z-50">
           <div className="w-1/3 h-44 flex flex-col items-center justify-center gap-y-8 bg-gray-200 p-6 rounded-md shadow-md">
             <div>
