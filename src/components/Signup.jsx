@@ -25,6 +25,9 @@ const Signup = () => {
         });
       };
     
+
+  const server='https://backendofrickshawmama.onrender.com';
+
       const handleSubmit = async () => {
         try {
           const { fname, lname, email, password } = user;
@@ -37,7 +40,7 @@ const Signup = () => {
             alert("please fill all the data");
           } else {
             await fetch(
-              "http://localhost:5001/user/signup",
+              `${server}/user/signup`,
               {
                 method: "POST",
                 headers: {
@@ -73,7 +76,7 @@ const Signup = () => {
         const { email  } = user;
     
         await fetch(
-          "http://localhost:5001/verify-email",
+          `${server}/verify-email`,
           {
             method: "POST",
             headers: {
@@ -99,7 +102,7 @@ const Signup = () => {
         console.log("codecamp", `${userEmail + otpData}`);
         try {
           const res = await fetch(
-            "http://localhost:5001/auth/googleAuth-verfication",
+            `${server}/auth/googleAuth-verfication`,
             {
               method: "POST",
               headers: {
@@ -126,7 +129,7 @@ const Signup = () => {
     
         try {
           const res = await fetch(
-            "http://localhost:5001/auth/registration",
+            `${server}/auth/registration`,
             {
               method: "POST",
               headers: {
