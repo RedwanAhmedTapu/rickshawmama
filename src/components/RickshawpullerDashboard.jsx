@@ -61,7 +61,7 @@ const RickshawpullerDashboard = () => {
         <div className="w-96 h-96 flex_col_center ">
       <h1 className="sm:text-3xl font-bold mb-4 text-white text-2xl text-center">Rickshawpuller Dashboard</h1>
 
-          {rickshawpullerDetails && (
+          {!loading && (
             <div className="flex items-center space-x-4">
               <img
                 src={rickshawpullerDetails.image}
