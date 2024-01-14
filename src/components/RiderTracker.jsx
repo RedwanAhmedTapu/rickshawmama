@@ -75,6 +75,7 @@ const RoadTrackingSystem = () => {
       console.error("Error checking geolocation permission:", error);
     }
   };
+  console.log(rickshawPullers);
 
   const checkRickshawPullers = async (location) => {
     try {
@@ -95,6 +96,7 @@ const RoadTrackingSystem = () => {
       } else {
         // Update the rickshaw puller locations and routes in the state
         socket.on("rickshawPullerUpdate", (updatedPullers) => {
+          console.log(updatedPullers);
           setRickshawPullers((prevPullers) =>
             updatedPullers.map((updatedPuller) => {
               const existingPuller = prevPullers.find(
