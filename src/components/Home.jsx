@@ -37,8 +37,8 @@ console.log(t)
       <div className=" max-[999px]:w-full w-[50%] h-full flex_col_center gap-y-16">
         <div className="text-[#F8A339] max-[459px]:text-4xl text-5xl lg:text-6xl font-bold uppercase">Rickshawmama</div>
         <div className="w-96 h-24 max-[390px]:w-64 flex_center justify-start gap-x-4 z-20">
-            <div className="w-44 h-12 bg-[#F8A339] text-black font-semibold flex_center" onClick={()=>{navigate("/rickshawpuller-registration")}}>Make Income</div>
-            <div className="w-44 h-12 border-[0.1rem] border-[#F8A339] text-[#F8A339] font-semibold flex_center" onClick={()=>{navigate("/rider-login")}}>Make Ride</div>
+            <div className="make_income_button make_ride_button relative cursor-pointer w-44 h-12 bg-[#F8A339] hover:bg-transparent  hover:border hover:border-[#F8A339] hover:text-white text-black font-semibold flex_center" onClick={()=>{navigate("/rickshawpuller-registration")}}>Make Income</div>
+            <div className="make_ride_button relative cursor-pointer w-44 h-12 border-[0.1rem] border-[#F8A339] text-[#F8A339] font-semibold flex_center" onClick={()=>{navigate("/rider-login")}}>Make Ride</div>
 
         </div>
       </div>

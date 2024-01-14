@@ -50,8 +50,9 @@ const Nav = () => {
       </div>
 
       {/* Menu Content */}
-      <div className={` ${isMenuOpen ? " w-full h-screen absolute top-12 bg-black opacity-70 filter brightness-200 flex_col_around " : "hidden"}`}>
-      <div className="w-full  h-32 flex flex-col justify-center items-center  filter brightness-200">
+      <div className={` ${isMenuOpen ? "w-full h-screen transition-all duration-1000 absolute top-12 bg-[#000] opacity-80 filter brightness-200 flex-col justify-center items-center min-[760px]:hidden " : "h-0"}`}>
+
+      <div className={`${isMenuOpen ? "w-full  h-32 flex flex-col justify-center items-center p-2 gap-y-1  filter brightness-200" : "hidden"}`}>
         <div className="w-full h-full flex_center text-xl  text-white filter brightness-200 font-bold" onClick={toggleMenu}>
           <Link to="/signup">Sign Up</Link>
         </div>
@@ -59,8 +60,8 @@ const Nav = () => {
           <Link to="/login">Login</Link>
         </div>
       </div>
-      <div className="w-full h-96 flex flex-col justify-between items-center md:max-w-[500px] " onClick={toggleMenu}>
-        <div className="w-16 h-full flex items-center text-xl font-bold filter brightness-200 text-[#F8A339] uppercase">
+      <div className={`${isMenuOpen ? "w-full h-96 flex flex-col justify-evenly items-center md:max-w-[500px]" : "hidden"} `} onClick={toggleMenu}>
+        <div className="w-16 h-full flex items-center text-xl font-bold filter brightness-200 text-[#d8923c] uppercase">
           <Link to="/">HOME</Link>
         </div>
 

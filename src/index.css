@@ -94,6 +94,27 @@ body{
 }
 /* styles.css */
 
+.make_ride_button::before {
+  content: "";
+  width: 0;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #F8A339;
+  opacity: 0.5; /* Add your desired background color */
+  transition: width 500ms ease-in-out; /* Adjust the duration as needed */
+}
+
+.make_ride_button:hover::before {
+  width: 100%;
+}
+.make_income_button::before{
+background-color: black;
+opacity: 0.5;
+}
+
 .menu-icon {
   width: 25px;
   height: 3px;

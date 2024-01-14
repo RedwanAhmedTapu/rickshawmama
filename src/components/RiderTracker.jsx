@@ -318,7 +318,7 @@ const RoadTrackingSystem = () => {
             <input
               type="text"
               placeholder="Start Location"
-              className="w-[90%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
+              className="w-full px-3 py-2 bg-[#dbdbdb] max-[405px]:placeholder:text-[0.7rem] placeholder:text-[1rem] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
               value={startLocation.areaName}
               onChange={(e) => handleStartLocationChange(e.target.value)}
             />
@@ -346,7 +346,8 @@ const RoadTrackingSystem = () => {
               type="text"
               placeholder="End Location"
               value={endLocation.areaName}
-              className="w-[90%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
+              className="w-full px-3 py-2 bg-[#dbdbdb] max-[405px]:placeholder:text-[0.7rem] placeholder:text-[1rem] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
+
               onChange={(e) => handleEndLocationChange(e.target.value)}
             />
             {/* Display suggestions for end location in a scrollable div */}
@@ -372,7 +373,7 @@ const RoadTrackingSystem = () => {
             onClick={() => {
               handleSubmit();
             }}
-            className="w-44 h-12 bg-white rounded-md shadow-md shadow-slate-400 text-slate-950"
+            className="w-44 h-12 max-[450px]:w-32  bg-white rounded-md shadow-md shadow-slate-400 text-slate-950"
           >
             Get Road Data
           </button>
