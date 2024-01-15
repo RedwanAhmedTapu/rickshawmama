@@ -57,31 +57,29 @@ const RickshawpullerDashboard = () => {
       {loading ? (
         <p className="text-gray-500">Loading...</p>
       ) : (
-        <div className="w-96 h-96 flex_col_center ">
-          <h1 className="sm:text-3xl font-bold mb-4 text-white text-2xl text-center">
-            Rickshawpuller Dashboard
-          </h1>
-
-          <div className="flex items-center space-x-4">
-            <img
-              src={rickshawpullerDetails.image && rickshawpullerDetails.image}
-              alt="Rickshawpuller"
-              className="w-44 h-44 rounded-full"
-            />
-            <div>
-              <p className="text-lg font-bold">
-                Name: {rickshawpullerDetails.name && rickshawpullerDetails.name}
-              </p>
-              <p className="text-gray-600">
-                Phone:{" "}
-                {rickshawpullerDetails.phone && rickshawpullerDetails.phone}
-              </p>
-              <p className="text-gray-600">
-                NID: {rickshawpullerDetails.nid && rickshawpullerDetails.nid}
-              </p>
-            </div>
+        <div className="w-96 h-96 flex-col-center bg-gradient-to-r from-blue-500 to-indigo-700 p-8 rounded-lg shadow-lg text-white">
+        <h1 className="text-3xl font-bold mb-4 text-center">Rickshawpuller Dashboard</h1>
+      
+        <div className="flex items-center space-x-4">
+          <img
+            src={rickshawpullerDetails.image && rickshawpullerDetails.image}
+            alt="Rickshawpuller"
+            className="w-44 h-44 rounded-full border-4 border-white"
+          />
+          <div>
+            <p className="text-lg font-bold">
+              Name: {rickshawpullerDetails.name && rickshawpullerDetails.name}
+            </p>
+            <p className="text-gray-300">
+              Phone: {rickshawpullerDetails.phone && rickshawpullerDetails.phone}
+            </p>
+            <p className="text-gray-300">
+              NID: {rickshawpullerDetails.nid && rickshawpullerDetails.nid}
+            </p>
           </div>
         </div>
+      </div>
+      
       )}
     </div>
   );
