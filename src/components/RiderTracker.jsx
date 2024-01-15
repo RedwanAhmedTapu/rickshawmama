@@ -381,7 +381,7 @@ const RoadTrackingSystem = () => {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <div className="w-[70%] h-full -z-20 overflow-auto">
+          <div className="w-[70%] h-full  overflow-auto">
             <MapContainer
               center={position}
               zoom={15}
