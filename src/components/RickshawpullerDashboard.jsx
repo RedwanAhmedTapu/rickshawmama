@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 const RickshawpullerDashboard = () => {
   const [rickshawpullerDetails, setRickshawpullerDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [data,setData]=useState(false);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -38,13 +39,14 @@ const RickshawpullerDashboard = () => {
 
     socket.on("rickshawPullerLocationUpdate", async (data) => {
       console.log("Rickshawpuller location updated:", data);
+      setData(true);
       setRickshawpullerDetails(data.rickshawpullerdata);
     });
 
     return () => {
       socket.disconnect();
     };
-  }, [userNid]);
+  }, [userNid,data]);
 
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
