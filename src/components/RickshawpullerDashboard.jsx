@@ -10,12 +10,11 @@ const RickshawpullerDashboard = () => {
   const searchParams = new URLSearchParams(location.search);
   const userNid = searchParams.get("userNid");
 
-  const server='https://backendofrickshawmama.onrender.com';
-
+  const server = "https://backendofrickshawmama.onrender.com";
 
   useEffect(() => {
     const socket = io(server); // Replace with your Socket.IO server URL
-
+    console.log(rickshawpullerDetails);
     const emitRickshawmamaLocation = async () => {
       try {
         const position = await getCurrentLocation();
@@ -59,24 +58,29 @@ const RickshawpullerDashboard = () => {
         <p className="text-gray-500">Loading...</p>
       ) : (
         <div className="w-96 h-96 flex_col_center ">
-      <h1 className="sm:text-3xl font-bold mb-4 text-white text-2xl text-center">Rickshawpuller Dashboard</h1>
+          <h1 className="sm:text-3xl font-bold mb-4 text-white text-2xl text-center">
+            Rickshawpuller Dashboard
+          </h1>
 
-        
-            <div className="flex items-center space-x-4">
-              <img
-                src={rickshawpullerDetails.image}
-                alt="Rickshawpuller"
-                className="w-44 h-44 rounded-full"
-              />
-              <div>
-                <p className="text-lg font-bold">
-                  Name: {rickshawpullerDetails.name}
-                </p>
-                <p className="text-gray-600">Phone: {rickshawpullerDetails.phone}</p>
-                <p className="text-gray-600">NID: {rickshawpullerDetails.nid}</p>
-              </div>
+          <div className="flex items-center space-x-4">
+            <img
+              src={rickshawpullerDetails.image && rickshawpullerDetails.image}
+              alt="Rickshawpuller"
+              className="w-44 h-44 rounded-full"
+            />
+            <div>
+              <p className="text-lg font-bold">
+                Name: {rickshawpullerDetails.name && rickshawpullerDetails.name}
+              </p>
+              <p className="text-gray-600">
+                Phone:{" "}
+                {rickshawpullerDetails.phone && rickshawpullerDetails.phone}
+              </p>
+              <p className="text-gray-600">
+                NID: {rickshawpullerDetails.nid && rickshawpullerDetails.nid}
+              </p>
             </div>
-          
+          </div>
         </div>
       )}
     </div>
