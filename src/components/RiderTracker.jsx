@@ -33,7 +33,8 @@ const RoadTrackingSystem = () => {
   const [rickshawPullers, setRickshawPullers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [socketId, setSocketId] = useState(null); // State to hold the socket ID
-  const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
+  const [locationPermissionGranted, setLocationPermissionGranted] =
+    useState(false);
 
   const customIcon = new Icon({
     iconUrl: Location,
@@ -45,11 +46,16 @@ const RoadTrackingSystem = () => {
   });
 
   const serverUrl = "https://backendofrickshawmama.onrender.com";
+  // const serverUrl = "http://localhost:5001";
   const socket = socketIOClient(serverUrl);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const userEmail = searchParams.get("userEmail");
+
+  {
+    rickshawPullers.map((puller) => console.log(puller.route));
+  }
 
   const checkLocationPermission = async () => {
     try {
@@ -166,6 +172,20 @@ const RoadTrackingSystem = () => {
       };
     }
   }, [locationPermissionGranted, socketId, userEmail]);
+  const modifiedRoute =
+  rickshawPullers.length > 0 &&
+  rickshawPullers.map((puller) => {
+    console.log(`tapu`, puller);
+    return puller.route.length > 0
+      ? puller.route.map((coordinates) => [coordinates[1], coordinates[0]])
+      : [];
+  });
+
+console.log("modifiedRoute", modifiedRoute);
+
+
+
+  console.log(`modified`, modifiedRoute);
 
   const handleInputChange = (input, setLocation, setSuggestions) => {
     setLocation((prevLocation) => ({ ...prevLocation, areaName: input }));
@@ -347,7 +367,6 @@ const RoadTrackingSystem = () => {
               placeholder="End Location"
               value={endLocation.areaName}
               className="w-full px-3 py-2 bg-[#dbdbdb] max-[405px]:placeholder:text-[0.7rem] placeholder:text-[1rem] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
-
               onChange={(e) => handleEndLocationChange(e.target.value)}
             />
             {/* Display suggestions for end location in a scrollable div */}
@@ -381,12 +400,13 @@ const RoadTrackingSystem = () => {
         {loading ? (
           <p>Loading...</p>
         ) : (
-          <div className="w-[70%] h-full  overflow-auto">
+          <div className="w-[70%] h-full  overflow-auto ">
             <MapContainer
               center={position}
               zoom={15}
               scrollWheelZoom={true}
               className="w-full h-screen"
+              style={{ zIndex: 1 }}
             >
               <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -415,7 +435,7 @@ const RoadTrackingSystem = () => {
                           name: {puller.name}
                         </p>
                         <p className="text-xl text-slate-950">
-                         phone: {puller.phone}
+                          phone: {puller.phone}
                         </p>
                         <div className="w-[60%] h-[60%] rounded-full overflow-hidden border">
                           <img
@@ -429,18 +449,18 @@ const RoadTrackingSystem = () => {
                   </Marker>
                 ))}
               {rickshawPullers.map((puller) => (
-    <Polyline
-      key={puller.id}
-      positions={puller.route} // Assuming 'route' is an array of coordinates
-      color="blue"
-    />
-  ))}
+                <Polyline
+                  key={puller.id}
+                  positions={modifiedRoute} // Assuming 'route' is an array of coordinates
+                  color="blue"
+                />
+              ))}
             </MapContainer>
           </div>
         )}
       </div>
 
-      {(modalDistance && startLocation && endLocation) && (
+      {modalDistance && startLocation && endLocation && (
         <div className="w-full h-full flex_center absolute bottom-52 z-50">
           <div className="w-1/3 h-44 flex flex-col items-center justify-center gap-y-8 bg-gray-200 p-6 rounded-md shadow-md">
             <div>

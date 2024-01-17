@@ -21,6 +21,7 @@ const RickshawpullerRegistration = () => {
     lon: 'Loading...',
   });
   const serverUrl = "https://backendofrickshawmama.onrender.com";
+  // const serverUrl = "http://localhost:5001";
 const navigate=useNavigate();
 
   useEffect(() => {

@@ -22,6 +22,7 @@ const Login = () => {
     });
   };
   const serverUrl = "https://backendofrickshawmama.onrender.com";
+  // const serverUrl = "http://localhost:5001";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -113,9 +114,9 @@ const Login = () => {
       console.log(data);
 
       if (data.message === "Email verified successfully") {
-        navigate(`/?userEmail=${userEmail}`);
+        navigate(`/rickshawpuller-tracking`);
       } else if (data.message === "Invalid verification code") {
-        navigate(`/?userEmail=${userEmail}`);
+        navigate(`/rickshawpuller-tracking`);
       } else {
         navigate("/login");
       }

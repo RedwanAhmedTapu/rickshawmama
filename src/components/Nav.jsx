@@ -43,14 +43,15 @@ const Nav = () => {
 
       {/* Menu Icon */}
       <div
-        className="cursor-pointer w-8 h-8 flex items-center justify-center text-white absolute top-4 right-4 md:hidden"
+        className="cursor-pointer w-8 h-8 flex items-center justify-center text-white absolute top-4 right-4 md:hidden "
+        style={{ zIndex: 100 }}
        
       >
         <div className={`menu-icon ${isMenuOpen ? "menu-open" : ""}`}  onClick={toggleMenu}></div>
       </div>
 
       {/* Menu Content */}
-      <div className={` ${isMenuOpen ? "w-full h-screen transition-all duration-1000 absolute top-12 bg-[#000] opacity-80 filter brightness-200 flex-col justify-center items-center min-[760px]:hidden " : "h-0"}`}>
+      <div className={` ${isMenuOpen ? "w-full h-screen transition-all duration-1000 absolute top-12 bg-[#000] opacity-80 z-50 filter brightness-200 flex-col justify-center items-center min-[760px]:hidden " : "h-0"}`}>
 
       <div className={`${isMenuOpen ? "w-full  h-32 flex flex-col justify-center items-center p-2 gap-y-1  filter brightness-200" : "hidden"}`}>
         <div className="w-full h-full flex_center text-xl  text-white filter brightness-200 font-bold" onClick={toggleMenu}>

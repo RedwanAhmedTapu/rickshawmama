@@ -27,6 +27,7 @@ const Signup = () => {
     
 
   const server='https://backendofrickshawmama.onrender.com';
+  // const server='http://localhost:5001';
 
       const handleSubmit = async () => {
         try {
@@ -115,7 +116,7 @@ const Signup = () => {
           const data = await res.json();
     
           if (data.message === "Email verified successfully" || data.message==="Invalid verification code") {
-           navigate(`/select-level?userEmail=${userEmail}`);
+           navigate("/rider-login");
           } else {
            navigate("/signup");
           }
@@ -152,10 +153,10 @@ const Signup = () => {
     
   return (
    
-    <div className="w-full h-screen flex_center    overflow-hidden ">
+    <div className="w-full h-screen flex_center max-[500px]:relative max-[500px]:top-12    overflow-hidden ">
       <div className="sm:w-[70%] sm:h-[70%]  w-[90%] h-[90%]  flex_col_center gap-y-16  rounded-lg shadow-md shadow-slate-950 relative p-4">
 
-        <div className="w-full h-12 flex_center text-xl md:text-4xl font-mono text-white font-bold">
+        <div className="w-full h-12 flex_center max-[323px]:text-[1rem] text-xl md:text-4xl font-mono text-white font-bold">
           Create Account As Rider
         </div>
         <div className="w-full h-12 flex_center gap-x-4">
@@ -163,8 +164,8 @@ const Signup = () => {
             type="text"
             name="fname"
             id="fname"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-xl placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
-            placeholder="Enter your firstname..."
+            className="w-[40%] px-1 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-[0.8rem] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            placeholder="Enter firstname..."
             value={user && user.fname}
             onChange={handleChange}
             required
@@ -173,8 +174,8 @@ const Signup = () => {
             type="text"
              name="lname"
                 id="lname"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-xl placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
-            placeholder="Enter your lastname..."
+            className="w-[40%] px-1 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-[0.8rem] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            placeholder="Enter lastname..."
             value={user && user.lname}
             onChange={handleChange}
             required
@@ -186,17 +187,17 @@ const Signup = () => {
             type="email"
             name="email"
             id="email"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-xl placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
-            placeholder="Enter your email..."
+            className="w-[40%] px-1 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-[0.8rem] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
+            placeholder="Enter email..."
             value={user && user.email}
             onChange={handleChange}
             required
           />
           <input
             type="password"
-            className="w-[40%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg max-[500px]:placeholder:text-xl  ring-2 ring-white"
+            className="w-[40%] px-1 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg max-[500px]:placeholder:text-[0.8rem]  ring-2 ring-white"
             
-            placeholder="Enter your password..."
+            placeholder="Enter password..."
             name="password"
             id="password"
             value={user && user.password}
@@ -238,7 +239,7 @@ const Signup = () => {
               </GoogleOAuthProvider>
             </div>
        
-        <div className="w-[60%] h-10 flex_center self-center rounded-lg text-xl text-gray-900 font-bold bg-[#ffffff]" onClick={handleSubmit}> sign up </div>
+        <div className="w-[60%] max-[500px]:w-full h-10 flex_center self-center rounded-lg text-xl text-gray-900 font-bold bg-[#ffffff]" onClick={handleSubmit}> sign up </div>
 
       </div>
     </div>
@@ -259,7 +260,7 @@ const Signup = () => {
                 onChange={handleInputChange}
               />
               <button
-                className="mt-4 px-4 py-2 self-center bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                className="mt-4 px-1 py-2 self-center bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                 onClick={handleSendOtp}
               >
                 Send OTP for email verification
