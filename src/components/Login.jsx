@@ -13,6 +13,10 @@ const Login = () => {
     password: "",
   });
 
+
+  const clientID="993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com";//for vercel
+  // const clientID="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com";//for localhost
+
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -178,7 +182,7 @@ const Login = () => {
           />
           <div className="w-[90%] h-8 flex_center rounded-lg text-gray-400 bg-[#dbdbdb]">
             {" "}
-            <GoogleOAuthProvider clientId="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId={clientID}>
               <div className="w-full h-full flex_center bg-white rounded-lg">
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {

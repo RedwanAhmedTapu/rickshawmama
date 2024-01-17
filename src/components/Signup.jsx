@@ -25,7 +25,8 @@ const Signup = () => {
         });
       };
     
-
+      const clientID="993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com";//for vercel
+      // const clientID="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com";//for localhost
   const server='https://backendofrickshawmama.onrender.com';
   // const server='http://localhost:5001';
 
@@ -208,7 +209,7 @@ const Signup = () => {
         </div>
          <div className="flex flex-col gap-y-8 w-[50%]">
             <div className="flex_center w-full h-10 gap-x-2 border-2 border-slate-300 rounded-lg">
-              <GoogleOAuthProvider clientId="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com">
+              <GoogleOAuthProvider clientId={clientID}>
                 <div className="w-full h-full flex_center bg-white rounded-lg">
                   <GoogleLogin
                     onSuccess={(credentialResponse) => {
