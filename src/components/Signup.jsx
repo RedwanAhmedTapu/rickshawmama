@@ -144,6 +144,10 @@ const Signup = () => {
           const data = await res.json();
           console.log(data);
           if (data) {
+            if(data.message === "user already exist"){
+              navigate(`/rickshawpuller-tracking`);
+      
+            }
             await handleVerificationAuth(data.message, userData.email);
           }
         } catch (error) {
