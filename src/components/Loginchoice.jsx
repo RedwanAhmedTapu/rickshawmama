@@ -18,7 +18,7 @@ const LoginChoice = () => {
           onClick={() => handleLogin("rider")}
           className="w-96 h-16 bg-white rounded-md shadow-md shadow-slate-400 text-slate-950 text-2xl"
         >
-          Login as Rider
+          Login as user
         </button>
         <button
           onClick={() => handleLogin("rickshawmama")}

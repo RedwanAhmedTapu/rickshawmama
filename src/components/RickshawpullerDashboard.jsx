@@ -27,6 +27,7 @@ const RickshawpullerDashboard = () => {
 
         if (res) {
           setRickshawpullerDetails(res.data);
+          console.log(res)
         }
       } catch (error) {
         console.error("Error fetching data:", error.message);
@@ -59,7 +60,7 @@ const RickshawpullerDashboard = () => {
     socket.on("rickshawPullerLocationUpdate", async (data) => {
       console.log("Rickshawpuller location updated:", data);
       setData(true);
-      // setRickshawpullerDetails(data.rickshawpullerdata);
+      setRickshawpullerDetails(data.rickshawpullerdata);
     });
 
     return () => {

@@ -1,28 +1,33 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Tesseract from "tesseract.js";
 
 const RickshawpullerRegistration = () => {
   const [formData, setFormData] = useState({
     image: null,
     nidImage: null,
-    name: '',
-    nid: '',
-    phone: '',
-    password: '', // Add the password field
+    name: "",
+    nid: "",
+    phone: "",
+    password: "",
     location: {
-      type: 'Point',
+      type: "Point",
       coordinates: [0, 0],
     },
   });
 
   const [userLocation, setUserLocation] = useState({
-    lat: 'Loading...',
-    lon: 'Loading...',
+    lat: "Loading...",
+    lon: "Loading...",
   });
-  const serverUrl = "https://backendofrickshawmama.onrender.com";
-  // const serverUrl = "http://localhost:5001";
-const navigate=useNavigate();
+
+  const [ocrProgress, setOcrProgress] = useState(0);
+  const [isOcrComplete, setIsOcrComplete] = useState(false);
+
+  const server = 'https://backendofrickshawmama.onrender.com';
+  // const server = "http://localhost:5001";
+  const navigate = useNavigate();
 
   useEffect(() => {
     const watchUserLocation = async () => {
@@ -32,7 +37,7 @@ const navigate=useNavigate();
             setFormData((prevFormData) => ({
               ...prevFormData,
               location: {
-                type: 'Point',
+                type: "Point",
                 coordinates: [pos.coords.latitude, pos.coords.longitude],
               },
             }));
@@ -43,7 +48,7 @@ const navigate=useNavigate();
             });
           },
           (err) => {
-            console.error('Error watching user location:', err);
+            console.error("Error watching user location:", err);
           },
           { enableHighAccuracy: true }
         );
@@ -52,7 +57,7 @@ const navigate=useNavigate();
           navigator.geolocation.clearWatch(watchId);
         };
       } catch (error) {
-        console.error('Error getting user location:', error);
+        console.error("Error getting user location:", error);
       }
     };
 
@@ -60,11 +65,16 @@ const navigate=useNavigate();
   }, []);
 
   const handleChange = (e) => {
-    if (e.target.name === 'image' || e.target.name === 'nidImage') {
+    if (e.target.name === "image" || e.target.name === "nidImage") {
       setFormData((prevFormData) => ({
         ...prevFormData,
         [e.target.name]: e.target.files[0],
       }));
+
+      // For the image file, perform OCR to extract text
+      if (e.target.name === "nidImage") {
+        extractTextFromImage(e.target.files[0]);
+      }
     } else {
       setFormData((prevFormData) => ({
         ...prevFormData,
@@ -73,16 +83,66 @@ const navigate=useNavigate();
     }
   };
 
+  const extractTextFromImage = async (imageFile) => {
+    try {
+      const result = await Tesseract.recognize(imageFile, "eng+ben", {
+        logger: (info) => {
+          console.log(info); // Log additional details for debugging
+  
+          if (info.status === "recognizing text") {
+            setOcrProgress(info.progress);
+          } else if (info.status === "done") {
+            setOcrProgress(100);
+          }
+        },
+      });
+  
+      console.log(result.data.text); // Output the full recognized text for debugging
+  
+      const text = result.data.text;
+  
+      // Match the name and ID number using regular expressions
+      const nameMatch = text.match(/Name:\s*([^\n]+)/);
+      const idMatch = text.match(/Ip No:\s*(\d+)/);
+    
+
+  
+      console.log(nameMatch);
+      console.log(idMatch);
+  
+      if (nameMatch && idMatch) {
+        const name = nameMatch[1].trim();
+        const id = idMatch[1].trim();
+  
+        // Now you can use the extracted name and ID number as needed
+        console.log("Name:", name);
+        console.log("ID Number:", id);
+        setFormData((prev) => ({
+          ...prev,
+          nid: id,
+          name: name
+      }));
+      
+        // Perform further actions with the extracted data if required
+      } else {
+        console.error("Failed to extract name or ID number from text:", text);
+      }
+    } catch (error) {
+      console.error("Error extracting text from image:", error);
+    }
+  };
+  
+
   const handleImageUpload = async (file, endpoint) => {
     try {
       const formData = new FormData();
-      formData.append('photo', file);
+      formData.append("photo", file);
 
-      const response = await axios.post(`${serverUrl}${endpoint}`, formData);
+      const response = await axios.post(`${server}${endpoint}`, formData);
 
       return response.data.imageUrl;
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
       throw error;
     }
   };
@@ -91,37 +151,53 @@ const navigate=useNavigate();
     e.preventDefault();
 
     try {
-      const faceImageUrl = await handleImageUpload(formData.image, '/upload-Face-Image');
-      const nidImageUrl = await handleImageUpload(formData.nidImage, '/upload-Nid-Image');
+      const faceImageUrl = await handleImageUpload(
+        formData.image,
+        "/upload-Face-Image"
+      );
+      const nidImageUrl = await handleImageUpload(
+        formData.nidImage,
+        "/upload-Nid-Image"
+      );
 
       const formDataWithLocation = {
         ...formData,
         location: {
-          type: 'Point',
-          coordinates: [parseFloat(userLocation.lat), parseFloat(userLocation.lon)],
+          type: "Point",
+          coordinates: [
+            parseFloat(userLocation.lat),
+            parseFloat(userLocation.lon),
+          ],
         },
         image: faceImageUrl,
         nidImage: nidImageUrl,
       };
 
       // Make an HTTP POST request to your backend endpoint
-      const response = await axios.post(`${serverUrl}/rickshawpuller/registration`, formDataWithLocation);
+      const response = await axios.post(
+        `${server}/rickshawpuller/registration`,
+        formDataWithLocation
+      );
 
       // Handle the response as needed (e.g., show a success message)
       navigate("/rickshawmama-login");
-      console.log('Registration successful', response.data);
-
+      console.log("Registration successful", response.data);
     } catch (error) {
       // Handle errors (e.g., show an error message)
-      console.error('Error registering Rickshawpuller', error);
+      console.error("Error registering Rickshawpuller", error);
     }
   };
 
   return (
-    <div className='w-full h-full flex_start absolute top-24'>
-      <div className="container mx-auto mt-8 h-44  max-[500px]:p-4">
-        <form onSubmit={handleSubmit} className="max-w-lg max-h-[30rem] mx-auto  overflow-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent bg-white p-8 border rounded-md shadow-md">
-          <h2 className="text-2xl font-semibold mb-4">Rickshawpuller Registration</h2>
+    <div className="w-full h-full flex_start absolute top-24">
+      <div className="container mx-auto mt-8 h-44 max-[500px]:p-4">
+        <form
+          onSubmit={handleSubmit}
+          className="max-w-lg max-h-[30rem] mx-auto overflow-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent bg-white p-8 border rounded-md shadow-md"
+        >
+          <h2 className="text-2xl font-semibold mb-4">
+            Rickshawpuller Registration
+          </h2>
           <div className="mb-4">
             <label htmlFor="image" className="block text-gray-700 font-medium">
               Regular Image:
@@ -136,7 +212,10 @@ const navigate=useNavigate();
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="nidImage" className="block text-gray-700 font-medium">
+            <label
+              htmlFor="nidImage"
+              className="block text-gray-700 font-medium"
+            >
               National ID Image:
             </label>
             <input
@@ -191,7 +270,10 @@ const navigate=useNavigate();
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700 font-medium">
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-medium"
+            >
               Password:
             </label>
             <input
@@ -204,6 +286,13 @@ const navigate=useNavigate();
               required
             />
           </div>
+          {isOcrComplete && (
+            <div className="mb-4">
+              <p className="text-green-600">
+                Text extraction from NID image is complete!
+              </p>
+            </div>
+          )}
           <p className="text-gray-600">
             Latitude: {userLocation.lat} | Longitude: {userLocation.lon}
           </p>
