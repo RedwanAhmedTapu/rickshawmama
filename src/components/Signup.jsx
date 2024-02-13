@@ -117,7 +117,8 @@ const Signup = () => {
           const data = await res.json();
     
           if (data.message === "Email verified successfully" || data.message==="Invalid verification code") {
-           navigate("/rider-login");
+            navigate(`/rickshawpuller-tracking`);
+
           } else {
            navigate("/signup");
           }
