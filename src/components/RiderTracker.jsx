@@ -2,8 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import { Icon } from "leaflet";
-import Location from "../imgs/location.png";
-import userLocationMarker from "../imgs/userLocationMarker.png";
+import LocationIcon from "../imgs/location.png";
+import UserLocationIcon from "../imgs/userLocationMarker.png";
 import "leaflet/dist/leaflet.css";
 import socketIOClient from "socket.io-client";
 
@@ -15,16 +15,15 @@ const RoadTrackingSystem = () => {
   const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
 
   const customIcon = new Icon({
-    iconUrl: Location,
+    iconUrl: LocationIcon,
     iconSize: [52, 52],
   });
   const userLocationIcon = new Icon({
-    iconUrl: userLocationMarker,
+    iconUrl: UserLocationIcon,
     iconSize: [52, 52],
   });
 
   const serverUrl = 'https://backendofrickshawmama.onrender.com';
-  // const serverUrl = "http://localhost:5001";
   const socket = socketIOClient(serverUrl);
 
   const location = useLocation();
@@ -48,7 +47,6 @@ const RoadTrackingSystem = () => {
           setLocationPermissionGranted(true);
         } else {
           console.error("Geolocation permission denied.");
-          // Handle denial of geolocation permission
         }
       }
     } catch (error) {
@@ -73,7 +71,6 @@ const RoadTrackingSystem = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       } else {
-        // Update the rickshaw puller locations and routes in the state
         socket.on("rickshawPullerUpdate", (updatedPullers) => {
           setRickshawPullers(updatedPullers);
         });
