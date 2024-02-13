@@ -13,8 +13,8 @@ const Login = () => {
     password: "",
   });
 
-  const clientID =
-    "993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com"; //for vercel
+
+  const clientID="993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com";//for vercel
   // const clientID="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com";//for localhost
 
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const Login = () => {
       if (email.trim() === "" || password.trim() === "") {
         alert("please fill all the data");
       } else {
-        await axios
+         await axios
           .post(`${serverUrl}/user/login`, user)
           .then((res) => {
             console.log(res.data);
@@ -103,22 +103,24 @@ const Login = () => {
   const handleVerificationAuth = async (otpData, userEmail) => {
     console.log("codecamp", `${userEmail + otpData}`);
     try {
-      const res = await fetch(`${serverUrl}/auth/googleAuth-verfication`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userEmail, otpData }),
-      });
+      const res = await fetch(
+        `${serverUrl}/auth/googleAuth-verfication`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userEmail, otpData }),
+        }
+      );
 
       const data = await res.json();
       console.log(data);
 
       if (data.message === "Email verified successfully") {
         navigate(`/rickshawpuller-tracking`);
-      } else if (data.message === "user already exist") {
-        navigate(`/rickshawpuller-tracking`);
-      } else if (data.message === "Invalid verification code") {
+      }
+       else if (data.message === "Invalid verification code") {
         navigate(`/rickshawpuller-tracking`);
       } else {
         navigate("/login");
@@ -130,15 +132,22 @@ const Login = () => {
 
   const handleAuthuser = async (userData) => {
     try {
-      const res = await fetch(`${serverUrl}/auth/registration`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const res = await fetch(
+        `${serverUrl}/auth/registration`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
       const data = await res.json();
+      if(data.message === "user already exist"){
+        navigate(`/rickshawpuller-tracking`);
+
+      }
       console.log(data);
       if (data) {
         await handleVerificationAuth(data.message, userData.email);
@@ -149,6 +158,7 @@ const Login = () => {
   };
   return (
     <div className="w-full h-screen text-white max-[800px]:flex_col_center flex_center">
+
       <div className="flex_center max-[650px]:w-full w-[50%] h-full ">
         <img src={WhiteRickshaw} className="w-full h-full " />
       </div>
@@ -208,10 +218,8 @@ const Login = () => {
               </div>
             </GoogleOAuthProvider>
           </div>
-          <div
-            className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg "
-            onClick={handleSubmit}
-          >
+          <div className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg " onClick={handleSubmit}>
+           
             sign in
           </div>
         </div>
