@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-// import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import { Icon } from "leaflet";
 import LocationIcon from "../imgs/location.png";
@@ -27,9 +27,9 @@ const RoadTrackingSystem = () => {
   // const serverUrl = 'http://localhost:5001';
   const socket = socketIOClient(serverUrl);
 
-  // const location = useLocation();
-  // const searchParams = new URLSearchParams(location.search);
-  // const userEmail = searchParams.get("userEmail");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const userEmail = searchParams.get("userEmail");
 
   const checkLocationPermission = async () => {
     try {
@@ -86,7 +86,7 @@ const RoadTrackingSystem = () => {
   }, []);
 
   useEffect(() => {
-   
+    if (locationPermissionGranted) {
       socket.on("connect", () => {
         setLoading(false);
       });
@@ -114,14 +114,14 @@ const RoadTrackingSystem = () => {
       };
 
       getCurrentPosition();
-      const intervalId = setInterval(getCurrentPosition, 1000);
+      const intervalId = setInterval(getCurrentPosition, 5000);
 
       return () => {
         socket.disconnect();
         clearInterval(intervalId);
       };
     }
-  , [locationPermissionGranted, socketId]);
+  }, [locationPermissionGranted, socketId, userEmail]);
 
   const mapContainer = useMemo(
     () => (
@@ -184,7 +184,7 @@ const RoadTrackingSystem = () => {
           ))}
       </MapContainer>
     ),
-    [position, rickshawPullers]
+    [position, rickshawPullers,userEmail]
   );
 
   return (
