@@ -22,8 +22,9 @@ const RoadTrackingSystem = () => {
     iconUrl: UserLocationIcon,
     iconSize: [52, 52],
   });
+  const serverUrl='https://backendofrickshawmama.onrender.com';
 
-  const serverUrl = 'http://localhost:5001';
+  // const serverUrl = 'http://localhost:5001';
   const socket = socketIOClient(serverUrl);
 
   // const location = useLocation();
@@ -113,7 +114,7 @@ const RoadTrackingSystem = () => {
       };
 
       getCurrentPosition();
-      const intervalId = setInterval(getCurrentPosition, 5000);
+      const intervalId = setInterval(getCurrentPosition, 1000);
 
       return () => {
         socket.disconnect();
