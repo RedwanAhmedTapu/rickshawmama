@@ -38,16 +38,16 @@ const RoadTrackingSystem = () => {
 
       if (permissionStatus.state === "granted") {
         setLocationPermissionGranted(true);
-      } else {
-        const permissionResult = await navigator.permissions.request({
-          name: "geolocation",
-        });
+      // } else {
+      //   const permissionResult = await navigator.permissions.request({
+      //     name: "geolocation",
+      //   });
 
-        if (permissionResult.state === "granted") {
-          setLocationPermissionGranted(true);
-        } else {
-          console.error("Geolocation permission denied.");
-        }
+      //   if (permissionResult.state === "granted") {
+      //     setLocationPermissionGranted(true);
+      //   } else {
+      //     console.error("Geolocation permission denied.");
+      //   }
       }
     } catch (error) {
       console.error("Error checking geolocation permission:", error);
