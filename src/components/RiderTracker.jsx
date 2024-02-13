@@ -114,7 +114,7 @@ const RoadTrackingSystem = () => {
       };
 
       getCurrentPosition();
-      const intervalId = setInterval(getCurrentPosition, 5000);
+      const intervalId = setInterval(getCurrentPosition, 1000);
 
       return () => {
         socket.disconnect();
