@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
 import { Icon } from "leaflet";
 import LocationIcon from "../imgs/location.png";
@@ -23,12 +23,12 @@ const RoadTrackingSystem = () => {
     iconSize: [52, 52],
   });
 
-  const serverUrl = 'https://backendofrickshawmama.onrender.com';
+  const serverUrl = 'http://localhost:5001';
   const socket = socketIOClient(serverUrl);
 
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const userEmail = searchParams.get("userEmail");
+  // const location = useLocation();
+  // const searchParams = new URLSearchParams(location.search);
+  // const userEmail = searchParams.get("userEmail");
 
   const checkLocationPermission = async () => {
     try {
@@ -38,16 +38,16 @@ const RoadTrackingSystem = () => {
 
       if (permissionStatus.state === "granted") {
         setLocationPermissionGranted(true);
-      // } else {
-      //   const permissionResult = await navigator.permissions.request({
-      //     name: "geolocation",
-      //   });
+      } else {
+        const permissionResult = await navigator.geolocation.request({
+          name: "geolocation",
+        });
 
-      //   if (permissionResult.state === "granted") {
-      //     setLocationPermissionGranted(true);
-      //   } else {
-      //     console.error("Geolocation permission denied.");
-      //   }
+        if (permissionResult.state === "granted") {
+          setLocationPermissionGranted(true);
+        } else {
+          console.error("Geolocation permission denied.");
+        }
       }
     } catch (error) {
       console.error("Error checking geolocation permission:", error);
@@ -85,7 +85,7 @@ const RoadTrackingSystem = () => {
   }, []);
 
   useEffect(() => {
-    if (locationPermissionGranted) {
+   
       socket.on("connect", () => {
         setLoading(false);
       });
@@ -120,7 +120,7 @@ const RoadTrackingSystem = () => {
         clearInterval(intervalId);
       };
     }
-  }, [locationPermissionGranted, socketId, userEmail]);
+  , [locationPermissionGranted, socketId]);
 
   const mapContainer = useMemo(
     () => (
