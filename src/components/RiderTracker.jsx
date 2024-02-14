@@ -23,9 +23,9 @@ const RoadTrackingSystem = () => {
     iconSize: [52, 52],
   });
   const serverUrl='https://backendofrickshawmama.onrender.com';
+  // const serverUrl='http://localhost:5001';
 
-  // const serverUrl = 'http://localhost:5001';
-  const socket = socketIOClient(serverUrl);
+  const socket = useMemo(() => socketIOClient(serverUrl), [serverUrl]);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
@@ -40,7 +40,7 @@ const RoadTrackingSystem = () => {
       if (permissionStatus.state === "granted") {
         setLocationPermissionGranted(true);
       } else {
-        const permissionResult = await navigator.geolocation.request({
+        const permissionResult = await navigator.permissions.request({
           name: "geolocation",
         });
 
@@ -86,7 +86,7 @@ const RoadTrackingSystem = () => {
   }, []);
 
   useEffect(() => {
-    if (locationPermissionGranted) {
+    if (navigator.geolocation && locationPermissionGranted) {
       socket.on("connect", () => {
         setLoading(false);
       });
@@ -114,7 +114,7 @@ const RoadTrackingSystem = () => {
       };
 
       getCurrentPosition();
-      const intervalId = setInterval(getCurrentPosition, 1000);
+      const intervalId = setInterval(getCurrentPosition, 5000);
 
       return () => {
         socket.disconnect();
@@ -184,7 +184,7 @@ const RoadTrackingSystem = () => {
           ))}
       </MapContainer>
     ),
-    [position, rickshawPullers,userEmail]
+    [position, rickshawPullers, userEmail]
   );
 
   return (
