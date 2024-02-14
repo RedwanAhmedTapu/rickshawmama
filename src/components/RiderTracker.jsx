@@ -58,7 +58,7 @@ const RoadTrackingSystem = () => {
   const checkRickshawPullers = async (location) => {
     try {
       const response = await fetch(`${serverUrl}/getNearbyRickshawPullers`, {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
