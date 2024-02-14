@@ -123,8 +123,7 @@ const RoadTrackingSystem = () => {
     }
   }, [locationPermissionGranted, socketId, userEmail]);
 
-  const mapContainer = useMemo(
-    () => (
+  const mapContainer = 
       <MapContainer
         center={position}
         zoom={15}
@@ -183,9 +182,7 @@ const RoadTrackingSystem = () => {
             </React.Fragment>
           ))}
       </MapContainer>
-    ),
-    [position, rickshawPullers, userEmail]
-  );
+   
 
   return (
     <>
