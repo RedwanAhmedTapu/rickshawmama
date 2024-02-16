@@ -12,7 +12,6 @@ const RoadTrackingSystem = () => {
   const [rickshawPullers, setRickshawPullers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [socketId, setSocketId] = useState(null); // State to hold the socket ID
-  const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
 
   const customIcon = new Icon({
     iconUrl: LocationIcon,
@@ -23,37 +22,16 @@ const RoadTrackingSystem = () => {
     iconSize: [52, 52],
   });
   const serverUrl='https://backendofrickshawmama.onrender.com';
-  // const serverUrl='http://localhost:5001';
 
-  const socket = useMemo(() => socketIOClient(serverUrl), [serverUrl]);
+  // const serverUrl = 'http://localhost:5001';
+  const socket = socketIOClient(serverUrl);
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const userEmail = searchParams.get("userEmail");
 
-  const checkLocationPermission = async () => {
-    try {
-      const permissionStatus = await navigator.permissions.query({
-        name: "geolocation",
-      });
-
-      if (permissionStatus.state === "granted") {
-        setLocationPermissionGranted(true);
-      } else {
-        const permissionResult = await navigator.permissions.request({
-          name: "geolocation",
-        });
-
-        if (permissionResult.state === "granted") {
-          setLocationPermissionGranted(true);
-        } else {
-          console.error("Geolocation permission denied.");
-        }
-      }
-    } catch (error) {
-      console.error("Error checking geolocation permission:", error);
-    }
-  };
+ 
+  console.log("tapu");
 
   const checkRickshawPullers = async (location) => {
     try {
@@ -81,12 +59,10 @@ const RoadTrackingSystem = () => {
     }
   };
 
-  useEffect(() => {
-    checkLocationPermission();
-  }, []);
+  
 
   useEffect(() => {
-    if (navigator.geolocation && locationPermissionGranted) {
+    if ("geolocation" in navigator) {
       socket.on("connect", () => {
         setLoading(false);
       });
@@ -114,16 +90,17 @@ const RoadTrackingSystem = () => {
       };
 
       getCurrentPosition();
-      const intervalId = setInterval(getCurrentPosition, 5000);
+      const intervalId = setInterval(getCurrentPosition, 1000);
 
       return () => {
         socket.disconnect();
         clearInterval(intervalId);
       };
     }
-  }, [locationPermissionGranted, socketId, userEmail]);
+  }, [ socketId, userEmail]);
 
-  const mapContainer = 
+  const mapContainer = useMemo(
+    () => (
       <MapContainer
         center={position}
         zoom={15}
@@ -182,7 +159,9 @@ const RoadTrackingSystem = () => {
             </React.Fragment>
           ))}
       </MapContainer>
-   
+    ),
+    [position, rickshawPullers,userEmail]
+  );
 
   return (
     <>
@@ -191,11 +170,8 @@ const RoadTrackingSystem = () => {
           Look over your rider on the map
         </div>
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
+     
           <div className="w-[90%] h-[80%] overflow-auto">{mapContainer}</div>
-        )}
       </div>
     </>
   );

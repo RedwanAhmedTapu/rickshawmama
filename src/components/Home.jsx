@@ -1,3 +1,5 @@
+
+import { useEffect } from "react";
 import Rickshaw from "../imgs/rickshaw.png";
 import Corona from "../imgs/5.png";
 import Star from "../imgs/star.png";
@@ -24,6 +26,16 @@ const Home = () => {
     { month: 'dec', demand: 90 },
   ];
   const navigate=useNavigate();
+
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      localStorage.setItem('locationPermissionGranted', true);
+
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  }, []);
 console.log(t)
   return (
     <>

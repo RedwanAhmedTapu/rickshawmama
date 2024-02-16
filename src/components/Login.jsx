@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 const Login = () => {
@@ -25,8 +24,8 @@ const Login = () => {
       [name]: value,
     });
   };
-  const serverUrl = "https://backendofrickshawmama.onrender.com";
-  // const serverUrl = "http://localhost:5001";
+  const server = "https://backendofrickshawmama.onrender.com";
+  // const server = "http://localhost:5001";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,7 +36,7 @@ const Login = () => {
         alert("please fill all the data");
       } else {
          await axios
-          .post(`${serverUrl}/user/login`, user)
+          .post(`${server}/user/login`, user)
           .then((res) => {
             console.log(res.data);
 
@@ -100,57 +99,53 @@ const Login = () => {
     }
   };
   // for google signin
-  const handleVerificationAuth = async (otpData, userEmail) => {
-    console.log("codecamp", `${userEmail + otpData}`);
-    try {
-      const res = await fetch(
-        `${serverUrl}/auth/googleAuth-verfication`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userEmail, otpData }),
-        }
-      );
+  // const handleVerificationAuth = async (otpData, userEmail) => {
+  //   console.log("codecamp", `${userEmail + otpData}`);
+  //   try {
+  //     const res = await fetch(
+  //       `${serverUrl}/auth/googleAuth-verfication`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ userEmail, otpData }),
+  //       }
+  //     );
 
-      const data = await res.json();
-      console.log(data);
+  //     const data = await res.json();
+  //     console.log(data);
 
-      if (data.message === "Email verified successfully") {
-        navigate(`/rickshawpuller-tracking`);
-      }
-       else if (data.message === "Invalid verification code") {
-        navigate(`/rickshawpuller-tracking`);
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error("Error during email verification:", error);
-    }
-  };
+  //     if (data.message === "Email verified successfully") {
+  //       navigate(`/rickshawpuller-tracking`);
+  //     }
+  //      else if (data.message === "Invalid verification code") {
+  //       navigate(`/rickshawpuller-tracking`);
+  //     } else {
+  //       navigate("/login");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during email verification:", error);
+  //   }
+  // };
 
   const handleAuthuser = async (userData) => {
+
     try {
-      const res = await fetch(
-        `${serverUrl}/auth/registration`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+      const res = await fetch(`${server}/auth/registration`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
 
       const data = await res.json();
-      if(data.message === "user already exist"){
-        navigate(`/rickshawpuller-tracking`);
-
-      }
       console.log(data);
       if (data) {
-        await handleVerificationAuth(data.message, userData.email);
+        if (data.message === "user already exist" || data.message==="User created successfully") {
+          navigate(`/rickshawpuller-tracking`);
+        }
       }
     } catch (error) {
       console.error("Error during user registration:", error);
@@ -192,18 +187,22 @@ const Login = () => {
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     console.log(credentialResponse);
-                    var decoded = jwt_decode(credentialResponse.credential);
+                    // var decoded = jwt_decode(credentialResponse.credential);
 
-                    console.log(decoded);
-                    const { family_name, given_name, email } = decoded;
-                    const fname = family_name;
-                    const lname = given_name;
+                    // console.log(decoded);
+                    // const { family_name, given_name, email } = decoded;
+                    // const fname = family_name;
+                    // const lname = given_name;
 
-                    handleAuthuser({ fname, lname, email });
-                    localStorage.setItem(
-                      "loggedUser",
-                      JSON.stringify({ email, fname, lname })
-                    );
+                    if (credentialResponse) {
+                      handleAuthuser({token:credentialResponse.credential});
+                      }else{
+                        alert("wrong credentials");
+                      }
+                  //   localStorage.setItem(
+                  //     "loggedUser",
+                  //     JSON.stringify({ email, fname, lname })
+                  //   );
                   }}
                   onError={() => {
                     console.log("Login Failed");
