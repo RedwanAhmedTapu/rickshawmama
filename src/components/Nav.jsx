@@ -36,7 +36,7 @@ const Nav = () => {
           {language === "en" ? "Switch to Bengali" : "Switch to English"}
         </button>
 
-        <div className="w-16 h-full flex items-center text-xl font-normal text-white uppercase">
+        <div className="w-16 h-full flex items-center text-xl font-normal   text-white uppercase">
           Contact
         </div>
       </div>

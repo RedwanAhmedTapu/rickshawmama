@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
-import io from "socket.io-client";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const RickshawpullerDashboard = () => {
   const [rickshawpullerDetails, setRickshawpullerDetails] = useState(null);
-  const [data, setData] = useState(false);
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const userNid = searchParams.get("userNid");
-
-  const server = "https://backendofrickshawmama.onrender.com";
   // const server = "http://localhost:5001";
-  const socket = io(server);
+  const server='https://backendofrickshawmama.onrender.com';
+
 
   useEffect(() => {
-    // Replace with your Socket.IO server URL
     const fetchData = async () => {
       try {
         const res = await axios.get(`${server}/rickshawpuller/details`, {
@@ -25,54 +20,58 @@ const RickshawpullerDashboard = () => {
           },
         });
 
-        if (res) {
+        if (res.data) {
           setRickshawpullerDetails(res.data);
-          console.log(res)
         }
       } catch (error) {
         console.error("Error fetching data:", error.message);
       }
     };
 
-    fetchData(); // Call the function immediately
+    fetchData();
 
     console.log("Fetching data...");
+  }, [userNid]);
 
+  useEffect(() => {
     const emitRickshawmamaLocation = async () => {
       try {
-        const position = await getCurrentLocation();
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(
+            resolve,
+            reject,
+            { enableHighAccuracy: true }
+          );
+        });
+
         const { latitude, longitude } = position.coords;
 
-        socket.emit("updateRickshawmamaLocation", {
-          userNid,
-          lat: latitude,
-          lon: longitude,
-        });
+        const res = await axios.put(
+          `${server}/rickshawpuller-update-location`,
+          {
+            userNid,
+            lat: latitude,
+            lon: longitude,
+          }
+        );
+
+        console.log(res.data.message);
       } catch (error) {
         console.error("Error getting rickshawmama location:", error.message);
       }
     };
 
-    emitRickshawmamaLocation();
+    if (navigator.geolocation) {
+      emitRickshawmamaLocation();
+      const intervalId = setInterval(emitRickshawmamaLocation, 1500);
 
-    socket.on("connect", () => {});
-
-    socket.on("rickshawPullerLocationUpdate", async (data) => {
-      console.log("Rickshawpuller location updated:", data);
-      setData(true);
-      setRickshawpullerDetails(data.rickshawpullerdata);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [userNid, data]);
-
-  const getCurrentLocation = () => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
-  };
+      return () => {
+        clearInterval(intervalId);
+      };
+    } else {
+      console.error("Geolocation is not supported by your browser.");
+    }
+  }, [userNid]);
 
   return (
     <div className="container mx-auto p-8 w-full h-screen flex_center">

@@ -26,7 +26,7 @@ const Signup = () => {
 
   const clientID="993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com";//for vercel
   // const clientID =
-  //   "937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com"; //for localhost
+    // "937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com"; //for localhost
   const server='https://backendofrickshawmama.onrender.com';
   // const server = "http://localhost:5001";
 

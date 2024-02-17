@@ -10,6 +10,7 @@ import Signup from "./components/Signup";
 import RickshawpullerRegistration from "./components/RickshawpullerRegistration";
 import RiderTracker from "./components/RiderTracker";
 import RickshawpullerDashboard from "./components/RickshawpullerDashboard";
+// import MapBox from "./components/MapBox"
 const App = () => {
   const base="/";
   return (
