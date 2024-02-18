@@ -1,5 +1,5 @@
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
-
+import { useState } from "react";
 
 import Nav from "./components/Nav";
 import Home from "./components/Home";
@@ -10,25 +10,37 @@ import Signup from "./components/Signup";
 import RickshawpullerRegistration from "./components/RickshawpullerRegistration";
 import RiderTracker from "./components/RiderTracker";
 import RickshawpullerDashboard from "./components/RickshawpullerDashboard";
-// import MapBox from "./components/MapBox"
+
 const App = () => {
   const base="/";
+  const [currentLanguage, setCurrentLanguage] = useState(localStorage.getItem("lang"));
+console.log(currentLanguage)
+  const switchLanguage = () => {
+    const lang = localStorage.getItem("lang");
+     console.log(lang)
+    
+    if (lang === "en") {
+      localStorage.setItem("lang", "bn");
+      setCurrentLanguage("bn");
+    } else {
+      localStorage.setItem("lang", "en");
+      setCurrentLanguage("en");
+    }
+  };
+  
   return (
     <>
-     
-
       <Router basename={base}>
-        <Nav />
+        <Nav currentLanguage={currentLanguage} switchLanguage={switchLanguage} />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/rider-login" element={<Login />} />
-          <Route path="/login" element={<LoginChoice />} />
-          <Route path="/rickshawmama-login" element={<RickshamamaLogin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/rickshawpuller-registration" element={<RickshawpullerRegistration />} />
-          <Route path="/rickshawpuller-tracking" element={<RiderTracker />} />
-          <Route path="/rickshawpuller-dashboard" element={<RickshawpullerDashboard />} />
-         
+          <Route path="/" element={<Home currentLanguage={currentLanguage} />} />
+          <Route path="/rider-login" element={<Login currentLanguage={currentLanguage} />} />
+          <Route path="/login" element={<LoginChoice currentLanguage={currentLanguage} />} />
+          <Route path="/rickshawmama-login" element={<RickshamamaLogin currentLanguage={currentLanguage} />} />
+          <Route path="/signup" element={<Signup currentLanguage={currentLanguage} />} />
+          <Route path="/rickshawpuller-registration" element={<RickshawpullerRegistration currentLanguage={currentLanguage} />} />
+          <Route path="/rickshawpuller-tracking" element={<RiderTracker currentLanguage={currentLanguage} />} />
+          <Route path="/rickshawpuller-dashboard" element={<RickshawpullerDashboard currentLanguage={currentLanguage} />} />
         </Routes>
       </Router>
     </>

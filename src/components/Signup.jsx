@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from "@react-oauth/google";
 // import jwt_decode from "jwt-decode";
 
-const Signup = () => {
+const Signup = ({currentLanguage}) => {
   const [user, setUser] = useState({
     fname: "",
     lname: "",
@@ -148,7 +148,7 @@ const Signup = () => {
     <div className="w-full h-screen flex_center max-[500px]:relative max-[500px]:top-12    overflow-hidden ">
       <div className="sm:w-[70%] sm:h-[70%]  w-[90%] h-[90%]  flex_col_center gap-y-16  rounded-lg shadow-md shadow-slate-950 relative p-4">
         <div className="w-full h-12 flex_center max-[323px]:text-[1rem] text-xl md:text-4xl font-mono text-white font-bold">
-          Create Account As User
+        {currentLanguage === "en" ? "create account as a user" : " ব্যবহারকারী হিসেবে অ্যাকাউন্ট তৈরি করুন"}
         </div>
         <div className="w-full h-12 flex_center gap-x-4">
           <input
@@ -156,7 +156,7 @@ const Signup = () => {
             name="fname"
             id="fname"
             className="w-[40%] px-1 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-[0.8rem] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
-            placeholder="Enter firstname..."
+            placeholder={currentLanguage === "en" ? "enter firstname..." : " প্রথম নাম দিন "}
             value={user && user.fname}
             onChange={handleChange}
             required
@@ -166,7 +166,7 @@ const Signup = () => {
             name="lname"
             id="lname"
             className="w-[40%] px-1 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-[0.8rem] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
-            placeholder="Enter lastname..."
+            placeholder={currentLanguage === "en" ? "enter lastname..." : "শেষ নাম দিন "}
             value={user && user.lname}
             onChange={handleChange}
             required
@@ -178,7 +178,7 @@ const Signup = () => {
             name="email"
             id="email"
             className="w-[40%] px-1 py-2 bg-[#dbdbdb] max-[500px]:placeholder:text-[0.8rem] placeholder-gray-400 text-gray-900 rounded-lg  ring-2 ring-white"
-            placeholder="Enter email..."
+            placeholder={currentLanguage === "en" ? "enter email..." : "ইমেইল দিন "}
             value={user && user.email}
             onChange={handleChange}
             required
@@ -186,7 +186,8 @@ const Signup = () => {
           <input
             type="password"
             className="w-[40%] px-1 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg max-[500px]:placeholder:text-[0.8rem]  ring-2 ring-white"
-            placeholder="Enter password..."
+            placeholder=        {currentLanguage === "en" ? "enter password..." : "পাসওয়ার্ড দিন "}
+
             name="password"
             id="password"
             value={user && user.password}
@@ -232,8 +233,8 @@ const Signup = () => {
             className="w-[60%] max-[500px]:w-full h-10 flex_center self-center rounded-lg text-xl text-gray-900 font-bold bg-[#ffffff]"
             onClick={handleSubmit}
           >
-            {" "}
-            sign up{" "}
+                   {currentLanguage === "en" ? "sign up" : " নিবন্ধন করুন"}
+
           </div>
         </div>
       </div>
@@ -242,7 +243,8 @@ const Signup = () => {
           <div className=" bg-slate-900 rounded-lg">
             <div className="max-w-md mx-auto p-4  rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-center text-white">
-                Enter OTP within 5 minutes
+              {currentLanguage === "en" ? "Enter OTP" : "OTP দিন"}
+
               </h2>
               <CountdownTimer />
 
@@ -257,7 +259,9 @@ const Signup = () => {
                 className="mt-4 px-1 py-2 self-center bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
                 onClick={handleSendOtp}
               >
-                Send OTP for email verification
+              
+              {currentLanguage === "en" ? "  Send OTP for email verification" : "সেন্ড OTP"}
+
               </button>
             </div>
           </div>

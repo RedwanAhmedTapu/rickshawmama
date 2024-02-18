@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const LoginChoice = () => {
+const LoginChoice = ({currentLanguage}) => {
   const navigate = useNavigate();
 
   const handleLogin = (userType) => {
@@ -18,13 +18,15 @@ const LoginChoice = () => {
           onClick={() => handleLogin("rider")}
           className="w-96 h-16 bg-white rounded-md shadow-md shadow-slate-400 text-slate-950 text-2xl"
         >
-          Login as user
+                 {currentLanguage === "en" ? "Login as user" : " ব্যবহারকারী হিসেবে লগইন করুন"}
+
         </button>
         <button
           onClick={() => handleLogin("rickshawmama")}
           className="w-96 h-16 bg-white rounded-md shadow-md shadow-slate-400 text-slate-950 text-2xl"
         >
-          Login as Rickshaw Mama
+                          {currentLanguage === "en" ? "Login as rickshawmama " : " রিকশামামা হিসেবে লগইন করুন"}
+
         </button>
       </div>
     </div>

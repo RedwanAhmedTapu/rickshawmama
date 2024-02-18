@@ -7,7 +7,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import axios from "axios";
 
-const RickshamamaLogin = () => {
+const RickshamamaLogin = ({currentLanguage}) => {
   const [user, setUser] = useState({
     nid: "",
     password: "",
@@ -158,7 +158,8 @@ const RickshamamaLogin = () => {
       <div className="flex_center max-[650px]:w-full w-[50%] h-full ">
         <div className="loginrightDiv w-72 h-96 flex_col_around bg-slate-100 relative rounded-lg shadow-2xl shadow-slate-300 ">
           <div className="w-full h-12 text-start text-4xl text-[#3C1263] font-extrabold pl-4 ">
-            Sign In
+          {currentLanguage === "en" ? "sign in" : "সাইন ইন "}
+
           </div>
           <input
             type="text"
@@ -167,7 +168,7 @@ const RickshamamaLogin = () => {
             value={user && user.nid}
             onChange={handleChange}
             className="w-[90%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
-            placeholder="Enter National ID..."
+            placeholder= {currentLanguage === "en" ? "Enter National NID No" : "জাতীয় এনআইডি নম্বর দিন "}
           />
           <input
             type="password"
@@ -176,7 +177,7 @@ const RickshamamaLogin = () => {
             value={user && user.password}
             onChange={handleChange}
             className="w-[90%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
-            placeholder="Enter password..."
+            placeholder= {currentLanguage === "en" ? "enter password..." : "পাসওয়ার্ড দিন "}
           />
           <div className="w-[90%] h-8 flex_center rounded-lg text-gray-400 bg-[#dbdbdb]">
           <GoogleOAuthProvider clientId={clientID}>
@@ -215,7 +216,8 @@ const RickshamamaLogin = () => {
             className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg "
             onClick={handleSubmit}
           >
-            Sign In
+             {currentLanguage === "en" ? "sign in" : "সাইন ইন "}
+
           </div>
         </div>
       </div>

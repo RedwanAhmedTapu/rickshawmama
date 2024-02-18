@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Tesseract from "tesseract.js";
 
-const RickshawpullerRegistration = () => {
+const RickshawpullerRegistration = ({currentLanguage}) => {
   const [formData, setFormData] = useState({
     image: null,
     nidImage: null,
@@ -196,11 +196,12 @@ const RickshawpullerRegistration = () => {
           className="max-w-lg max-h-[30rem] mx-auto overflow-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent bg-white p-8 border rounded-md shadow-md"
         >
           <h2 className="text-2xl font-semibold mb-4">
-            Rickshawpuller Registration
+          {currentLanguage === "en" ? "Rickshawmam Registration" : "রিকশামামা নিবন্ধন "}
           </h2>
           <div className="mb-4">
             <label htmlFor="image" className="block text-gray-700 font-medium">
-              Regular Image:
+            {currentLanguage === "en" ? "Your Image" : " তোমার ছবি "}
+
             </label>
             <input
               type="file"
@@ -216,7 +217,8 @@ const RickshawpullerRegistration = () => {
               htmlFor="nidImage"
               className="block text-gray-700 font-medium"
             >
-              National ID Image:
+                         {currentLanguage === "en" ? "Your NID Image" : " তোমার এনআইডি  ছবি "}
+
             </label>
             <input
               type="file"
@@ -229,7 +231,7 @@ const RickshawpullerRegistration = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="name" className="block text-gray-700 font-medium">
-              Name:
+            {currentLanguage === "en" ? "Name" : " নাম"}
             </label>
             <input
               type="text"
@@ -243,7 +245,8 @@ const RickshawpullerRegistration = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="nid" className="block text-gray-700 font-medium">
-              National ID:
+            {currentLanguage === "en" ? "National NID" : " জাতীয় পরিচয়পত্র"}
+
             </label>
             <input
               type="text"
@@ -257,7 +260,8 @@ const RickshawpullerRegistration = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="phone" className="block text-gray-700 font-medium">
-              Phone:
+            {currentLanguage === "en" ? "phone" : " ফোন"}
+
             </label>
             <input
               type="text"
@@ -274,7 +278,8 @@ const RickshawpullerRegistration = () => {
               htmlFor="password"
               className="block text-gray-700 font-medium"
             >
-              Password:
+                         {currentLanguage === "en" ? "password" : "পাসওয়ার্ড"}
+
             </label>
             <input
               type="password"
@@ -300,7 +305,8 @@ const RickshawpullerRegistration = () => {
             type="submit"
             className="w-full bg-blue-500 text-white p-3 rounded-md hover:bg-blue-600 transition duration-300"
           >
-            Register Rickshawpuller
+                              {currentLanguage === "en" ? "sign up" : " নিবন্ধন করুন"}
+
           </button>
         </form>
       </div>

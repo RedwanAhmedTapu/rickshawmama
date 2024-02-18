@@ -11,7 +11,7 @@ import LocationIcon from "../imgs/location.png";
 import UserLocationIcon from "../imgs/userLocationMarker.png";
 import "leaflet/dist/leaflet.css";
 
-const RoadTrackingSystem = () => {
+const RoadTrackingSystem = ({currentLanguage}) => {
   const [position, setPosition] = useState([23.6079, 89.8415]);
   const [rickshawPullers, setRickshawPullers] = useState([]);
   const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
@@ -169,11 +169,13 @@ const RoadTrackingSystem = () => {
 
   return (
     <>
-      <div className="w-full h-screen flex_col_center relative top-24 gap-y-4">
-        <div className="w-full h-10 flex_center rel text-3xl text-slate-100 font-extralight">
-          Look over your rider on the map
+      <div className="w-full h-screen flex_col_center relative top-8 gap-y-4">
+        <div className="w-full h-[10] flex_center rel text-xl md:text-3xl text-[#F8A339] font-extralight">
+         
+          {currentLanguage === "en" ? " Look over your rider on the map" : " আপনার রাইডারকে ম্যাপে দেখুন"}
+
         </div>
-        <div className="w-[90%] h-[80%] overflow-auto">{mapContainer}</div>
+        <div className="w-[95%] h-[80%] overflow-auto">{mapContainer}</div>
       </div>
     </>
   );
