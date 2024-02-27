@@ -26,7 +26,8 @@ const RickshamamaLogin = ({currentLanguage}) => {
     });
   };
 
-  const server='https://backendofrickshawmama.onrender.com';
+  const server=process.env.SERVER_URL;
+  
   // const server='http://localhost:5001';
   const handleSubmit = async (event) => {
     event.preventDefault();

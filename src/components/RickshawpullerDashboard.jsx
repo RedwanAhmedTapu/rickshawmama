@@ -8,7 +8,7 @@ const RickshawpullerDashboard = () => {
   const searchParams = new URLSearchParams(location.search);
   const userNid = searchParams.get("userNid");
   // const server = "http://localhost:5001";
-  const server='https://backendofrickshawmama.onrender.com';
+  const server=process.env.SERVER_URL;
 
 
   useEffect(() => {

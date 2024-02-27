@@ -27,7 +27,7 @@ const RoadTrackingSystem = ({currentLanguage}) => {
   });
 
   // const serverUrl = "http://localhost:5001";
-  const serverUrl='https://backendofrickshawmama.onrender.com';
+  const serverUrl=process.env.SERVER_URL;
 
 
   const updateRouteOfRickshawPuller = (pullernId) => {
@@ -42,7 +42,8 @@ const RoadTrackingSystem = ({currentLanguage}) => {
     }).filter(Boolean);
    
 
-    setSelectedRickshawPullerRoute(updatedRoute);
+    setSelectedRickshawPullerRoute([...selectedRickshawPullerRoute,updatedRoute]);
+
   };
 
   const checkRickshawPullers = async (location) => {
@@ -156,7 +157,7 @@ const RoadTrackingSystem = ({currentLanguage}) => {
               <Polyline
                 positions={[
                   [position[0], position[1]],
-                  ...selectedRickshawPullerRoute,
+                  selectedRickshawPullerRoute,
                 ]}
                 color="blue"
               />

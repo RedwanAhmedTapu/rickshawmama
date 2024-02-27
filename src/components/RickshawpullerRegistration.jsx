@@ -25,7 +25,7 @@ const RickshawpullerRegistration = ({currentLanguage}) => {
   const [ocrProgress, setOcrProgress] = useState(0);
   const [isOcrComplete, setIsOcrComplete] = useState(false);
 
-  const server = 'https://backendofrickshawmama.onrender.com';
+  const server = process.env.SERVER_URL;
   // const server = "http://localhost:5001";
   const navigate = useNavigate();
 
