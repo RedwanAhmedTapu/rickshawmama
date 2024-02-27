@@ -9,6 +9,7 @@ import {
 import { Icon } from "leaflet";
 import LocationIcon from "../imgs/location.png";
 import UserLocationIcon from "../imgs/userLocationMarker.png";
+import RickhswpullerLocationIcon from "../imgs/location-animated-logo.svg";
 import "leaflet/dist/leaflet.css";
 
 const RoadTrackingSystem = ({ currentLanguage }) => {
@@ -24,6 +25,10 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
   const userLocationIcon = new Icon({
     iconUrl: UserLocationIcon,
     iconSize: [52, 52],
+  });
+  const rickshawpullerLocationIcon = new Icon({
+    iconUrl: RickhswpullerLocationIcon,
+    iconSize: [100, 100],
   });
 
   // const serverUrl = "http://localhost:5001";
@@ -127,7 +132,7 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
                   puller.location.coordinates[1],
                   puller.location.coordinates[0],
                 ]}
-                icon={customIcon}
+                icon={rickshawpullerLocationIcon}
               >
                 <Popup>
                   <div
@@ -155,8 +160,8 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
 
               <Polyline
                 positions={selectedRickshawPullerRoute.length>0 && selectedRickshawPullerRoute[0].map((point) => [
-                  point.coordinates[1],
                   point.coordinates[0],
+                  point.coordinates[1],
                 ])}
                 color="blue"
               />
