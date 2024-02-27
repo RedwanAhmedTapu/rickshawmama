@@ -11,7 +11,7 @@ import LocationIcon from "../imgs/location.png";
 import UserLocationIcon from "../imgs/userLocationMarker.png";
 import "leaflet/dist/leaflet.css";
 
-const RoadTrackingSystem = ({currentLanguage}) => {
+const RoadTrackingSystem = ({ currentLanguage }) => {
   const [position, setPosition] = useState([23.6079, 89.8415]);
   const [rickshawPullers, setRickshawPullers] = useState([]);
   const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
@@ -27,22 +27,23 @@ const RoadTrackingSystem = ({currentLanguage}) => {
   });
 
   // const serverUrl = "http://localhost:5001";
-  const serverUrl=process.env.SERVER_URL;
-
+  const serverUrl = process.env.SERVER_URL;
 
   const updateRouteOfRickshawPuller = (pullerId) => {
-    const updatedRoute = rickshawPullers.map((puller) => {
-      if (puller && puller.nid === pullerId && puller.location) {
-        console.log(puller);
-        const [lon, lat] = puller.location.coordinates;
-        return [lat, lon];
-      }
-      return null;
-    }).filter(Boolean);
-  
-    setSelectedRickshawPullerRoute( updatedRoute);
+    const updatedRoute = rickshawPullers
+      .map((puller) => {
+        if (puller && puller.nid === pullerId && puller.location) {
+          console.log(puller);
+          const route = puller.route;
+          return route;
+        }
+        return null;
+      })
+      .filter(Boolean);
+    console.log(updatedRoute);
+
+    setSelectedRickshawPullerRoute(updatedRoute);
   };
-  
 
   const checkRickshawPullers = async (location) => {
     try {
@@ -119,7 +120,7 @@ const RoadTrackingSystem = ({currentLanguage}) => {
         </Marker>
 
         {rickshawPullers.length > 0 &&
-          rickshawPullers.map((puller,index) => (
+          rickshawPullers.map((puller, index) => (
             <React.Fragment key={index}>
               <Marker
                 position={[
@@ -153,10 +154,10 @@ const RoadTrackingSystem = ({currentLanguage}) => {
               </Marker>
 
               <Polyline
-                positions={[
-                  [position[0], position[1]],
-                  ...selectedRickshawPullerRoute,
-                ]}
+                positions={selectedRickshawPullerRoute.length>0 && selectedRickshawPullerRoute[0].map((point) => [
+                  point.coordinates[1],
+                  point.coordinates[0],
+                ])}
                 color="blue"
               />
             </React.Fragment>
@@ -170,9 +171,9 @@ const RoadTrackingSystem = ({currentLanguage}) => {
     <>
       <div className="w-full h-screen flex_col_center relative top-8 gap-y-4">
         <div className="w-full h-[10] flex_center rel text-xl md:text-3xl text-[#F8A339] font-extralight">
-         
-          {currentLanguage === "en" ? " Look over your rider on the map" : " আপনার রাইডারকে ম্যাপে দেখুন"}
-
+          {currentLanguage === "en"
+            ? " Look over your rider on the map"
+            : " আপনার রাইডারকে ম্যাপে দেখুন"}
         </div>
         <div className="w-[95%] h-[80%] overflow-auto">{mapContainer}</div>
       </div>
