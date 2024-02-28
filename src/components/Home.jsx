@@ -2,9 +2,10 @@
 import Rickshaw from "../imgs/rickshaw.png";
 import Corona from "../imgs/5.png";
 import Star from "../imgs/star.png";
-import DemandVsMonthsChart from "./DemandVsMonthsChart";
+// import DemandVsMonthsChart from "./DemandVsMonthsChart";
 // import RiderTracker from "./RiderTracker";
 import { useNavigate } from "react-router-dom";
+import FunFacts from "./FunFacts";
 // import TrigonometryQuiz from "./TrigonometryQuiz";
 
 const Home = ({currentLanguage}) => {
@@ -50,8 +51,8 @@ const Home = ({currentLanguage}) => {
     </div>
     
    
-  
-  <DemandVsMonthsChart data={data}/>
+  <FunFacts/>
+  {/* <DemandVsMonthsChart data={data}/> */}
     {/* <RiderTracker/> */}
     {/* <TrigonometryQuiz/> */}
   

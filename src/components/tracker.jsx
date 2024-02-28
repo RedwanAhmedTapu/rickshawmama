@@ -40,18 +40,15 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
         if (puller && puller.nid === pullerId && puller.location) {
           console.log(puller);
           const route = puller.route;
-          console.log(puller.route);
-          setSelectedRickshawPullerRoute(puller.route);
-
           return route;
         }
         return null;
       })
       .filter(Boolean);
+    console.log(updatedRoute);
+
+    setSelectedRickshawPullerRoute(updatedRoute);
   };
-  selectedRickshawPullerRoute.map((route, index) => {
-    console.log(`Route ${index + 1}:`, route);
-  });
 
   const checkRickshawPullers = async (location) => {
     try {
@@ -80,8 +77,14 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
 
   useEffect(() => {
     if ("geolocation" in navigator) {
-      const watchPositionId = navigator.geolocation.watchPosition(
-        (pos) => {
+      const getCurrentPosition = async () => {
+        try {
+          const pos = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true,
+            });
+          });
+
           const { latitude, longitude } = pos.coords;
           setPosition([latitude, longitude]);
 
@@ -89,17 +92,16 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
             lat: latitude,
             lon: longitude,
           });
-        },
-        (error) => {
+        } catch (error) {
           console.error("Error getting current position:", error);
-        },
-        {
-          enableHighAccuracy: true,
         }
-      );
+      };
+
+      getCurrentPosition();
+      const intervalId = setInterval(getCurrentPosition, 2000);
 
       return () => {
-        navigator.geolocation.clearWatch(watchPositionId);
+        clearInterval(intervalId);
       };
     }
   }, []);
@@ -134,7 +136,7 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
               >
                 <Popup>
                   <div
-                    className="flex flex-col justify-center items-center w-full h-full cursor-pointer"
+                    className="flex flex-col justify-center items-center w-full h-full"
                     onClick={() => {
                       updateRouteOfRickshawPuller(puller.nid);
                     }}
@@ -156,27 +158,11 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
                 </Popup>
               </Marker>
 
-             {/* {selectedRickshawPullerRoute && selectedRickshawPullerRoute.map((route, index) => (
-    <Polyline
-        positions={[
-            position,
-            [route.coordinates[0], route.coordinates[1]],
-        ]}
-        key={index}
-        color="blue"
-    />
-))} */}
-
-
               <Polyline
-                positions={
-                  selectedRickshawPullerRoute &&
-                  selectedRickshawPullerRoute.map((point) => [
-                   
-                    point.coordinates[0],
-                    point.coordinates[1],
-                  ])
-                }
+                positions={selectedRickshawPullerRoute.length>0 && selectedRickshawPullerRoute[0].map((point) => [
+                  point.coordinates[0],
+                  point.coordinates[1],
+                ])}
                 color="blue"
               />
             </React.Fragment>

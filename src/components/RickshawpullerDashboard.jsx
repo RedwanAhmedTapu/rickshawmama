@@ -1,15 +1,16 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import debounce from "lodash/debounce";
 
 const RickshawpullerDashboard = () => {
   const [rickshawpullerDetails, setRickshawpullerDetails] = useState(null);
+  const [watchingPosition, setWatchingPosition] = useState(false);
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const userNid = searchParams.get("userNid");
-  // const server = "http://localhost:5001";
-  const server=process.env.SERVER_URL;
-
+  const server = process.env.SERVER_URL;
+  console.log(userNid)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,49 +34,76 @@ const RickshawpullerDashboard = () => {
     console.log("Fetching data...");
   }, [userNid]);
 
-  useEffect(() => {
-    const emitRickshawmamaLocation = async () => {
+  const handleWatchPosition = async (pos) => {
+    try {
+      const { latitude, longitude } = pos.coords;
+      console.log(pos);
+
+      const res = await axios.put(
+        `${server}/rickshawpuller-update-location`,
+        {
+          userNid,
+          lat: latitude,
+          lon: longitude,
+        }
+      );
+
+      console.log(res.data.message);
+    } catch (error) {
+      console.error("Error getting rickshawmama location:", error.message);
+    }
+  };
+
+  const startWatchingPosition = async () => {
+    if (!watchingPosition) {
       try {
-        const position = await new Promise((resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(
-            resolve,
-            reject,
-            { enableHighAccuracy: true }
-          );
-        });
-
-        const { latitude, longitude } = position.coords;
-
-        const res = await axios.put(
-          `${server}/rickshawpuller-update-location`,
-          {
-            userNid,
-            lat: latitude,
-            lon: longitude,
-          }
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            handleWatchPosition(pos);
+          },
+          (error) => {
+            console.error("Error getting current position:", error);
+          },
+          { enableHighAccuracy: true }
         );
 
-        console.log(res.data.message);
+        const watchPositionId = navigator.geolocation.watchPosition(
+          handleWatchPosition,
+          (error) => {
+            console.error("Error getting current position:", error);
+          },
+          { enableHighAccuracy: true }
+        );
+
+        setWatchingPosition(true);
+
+        return () => {
+          navigator.geolocation.clearWatch(watchPositionId);
+          setWatchingPosition(false);
+        };
       } catch (error) {
-        console.error("Error getting rickshawmama location:", error.message);
+        console.error("Error starting watch position:", error);
       }
-    };
-
-    if (navigator.geolocation) {
-      emitRickshawmamaLocation();
-      const intervalId = setInterval(emitRickshawmamaLocation, 1500);
-
-      return () => {
-        clearInterval(intervalId);
-      };
-    } else {
-      console.error("Geolocation is not supported by your browser.");
     }
-  }, [userNid]);
+  };
+  watchingPosition && alert("started sharing your position continuously");
+
+  // Debounce the click handler to avoid frequent executions
+  const startWatchingPositionDebounced = debounce(startWatchingPosition, 1000);
+
+  const deleteRoute = async () => {
+    try {
+      const res = await axios.delete(`${server}/rickshawpuller/route-delete/${userNid}`);
+      alert(res.data.message);
+    } catch (error) {
+      console.error("Error deleting route:", error);
+      // Handle error appropriately, such as showing an error message to the user
+    }
+  };
 
   return (
-    <div className="container mx-auto p-8 w-full h-screen flex_center">
-      <div className="w-96 h-96 sm:w-[60%] flex-col-center  bg-gradient-to-r from-blue-500 to-indigo-700 p-8 rounded-lg shadow-lg text-white">
+    <div className="container mx-auto p-8 w-full h-screen flex_center relative top-12">
+      <div className="w-96 h-[35rem] sm:w-[60%] flex-col-center bg-gradient-to-r from-blue-500 to-indigo-700 p-8 rounded-lg shadow-lg text-white">
         <h1 className="text-3xl font-bold mb-4 text-center">
           Rickshawpuller Dashboard
         </h1>
@@ -102,6 +130,18 @@ const RickshawpullerDashboard = () => {
             </div>
           </div>
         )}
+
+        {/* Use the debounced click handler */}
+        <div className=" w-full h-32 flex_center gap-x-12 ">
+        <button className="w-32 h-16 bg-blue-400 hover:bg-blue-300 text-white rounded-sm shadow-lg p-1 text-center" onClick={startWatchingPositionDebounced}>
+          Start Watching Position
+        </button>
+        <button className="w-32 h-16 bg-blue-400 hover:bg-blue-300 text-white rounded-sm shadow-lg p-1 text-center" onClick={deleteRoute}>
+
+          Delete Your Route  
+        </button>
+        </div>
+       
       </div>
     </div>
   );

@@ -2,9 +2,9 @@ import WhiteRickshaw from "../imgs/rickshawlogin.svg";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode from "jwt-decode";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
+// import { GoogleLogin } from "@react-oauth/google";
+// import jwt_decode from "jwt-decode";
 import axios from "axios";
 
 const RickshamamaLogin = ({currentLanguage}) => {
@@ -14,7 +14,7 @@ const RickshamamaLogin = ({currentLanguage}) => {
   });
 
 
-  const clientID="993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com";//for vercel
+  // const clientID="993913645019-gjbsgomsu7sgo0bv7rkas1d9irgp2upv.apps.googleusercontent.com";//for vercel
   // const clientID="937173192475-srjkndb4hln721ut5f40m08d3u6e0tq2.apps.googleusercontent.com";//for localhost
   const navigate = useNavigate();
 
@@ -100,56 +100,56 @@ const RickshamamaLogin = ({currentLanguage}) => {
     }
   };
 
-  const handleVerificationAuth = async (otpData, userNid) => {
-    try {
-      const res = await fetch(
-        `${server}/auth/googleAuth-verfication`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ userNid, otpData }),
-        }
-      );
+  // const handleVerificationAuth = async (otpData, userNid) => {
+  //   try {
+  //     const res = await fetch(
+  //       `${server}/auth/googleAuth-verfication`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ userNid, otpData }),
+  //       }
+  //     );
 
-      const data = await res.json();
-      console.log(data);
+  //     const data = await res.json();
+  //     console.log(data);
 
-      if (data.message === "Email verified successfully") {
-        navigate(`/?userNid=${userNid}`);
-      } else if (data.message === "Invalid verification code") {
-        navigate(`/?userNid=${userNid}`);
-      } else {
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error("Error during email verification:", error);
-    }
-  };
+  //     if (data.message === "Email verified successfully") {
+  //       navigate(`/?userNid=${userNid}`);
+  //     } else if (data.message === "Invalid verification code") {
+  //       navigate(`/?userNid=${userNid}`);
+  //     } else {
+  //       navigate("/login");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during email verification:", error);
+  //   }
+  // };
 
-  const handleAuthUser = async (userData) => {
-    try {
-      const res = await fetch(
-        `${server}/auth/registration`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+  // const handleAuthUser = async (userData) => {
+  //   try {
+  //     const res = await fetch(
+  //       `${server}/auth/registration`,
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(userData),
+  //       }
+  //     );
 
-      const data = await res.json();
-      console.log(data);
-      if (data) {
-        await handleVerificationAuth(data.message, userData.nid);
-      }
-    } catch (error) {
-      console.error("Error during user registration:", error);
-    }
-  };
+  //     const data = await res.json();
+  //     console.log(data);
+  //     if (data) {
+  //       await handleVerificationAuth(data.message, userData.nid);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error during user registration:", error);
+  //   }
+  // };
 
   return (
     <div className="w-full h-screen text-white max-[800px]:flex_col_center flex_center">
@@ -180,7 +180,7 @@ const RickshamamaLogin = ({currentLanguage}) => {
             className="w-[90%] px-3 py-2 bg-[#dbdbdb] placeholder-gray-400 text-gray-900 rounded-lg border-none focus:ring-0 focus:border-none"
             placeholder= {currentLanguage === "en" ? "enter password..." : "পাসওয়ার্ড দিন "}
           />
-          <div className="w-[90%] h-8 flex_center rounded-lg text-gray-400 bg-[#dbdbdb]">
+          {/* <div className="w-[90%] h-8 flex_center rounded-lg text-gray-400 bg-[#dbdbdb]">
           <GoogleOAuthProvider clientId={clientID}>
 
               <div className="w-full h-full flex_center bg-white rounded-lg">
@@ -212,7 +212,7 @@ const RickshamamaLogin = ({currentLanguage}) => {
                 />
               </div>
             </GoogleOAuthProvider>
-          </div>
+          </div> */}
           <div
             className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg "
             onClick={handleSubmit}
