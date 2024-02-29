@@ -5,8 +5,8 @@ const EarnSection = () => {
 const navigate=useNavigate();
 
   return (
-    <section className=" bg-slate-50 -z-20  w-full h-screen relative  earn-section flex_col_center pt-8 md:pt-0 ">
-      <div className=" mx-auto w-full h-[50%] flex_col_center pr-2">
+    <section className=" bg-slate-50 -z-20  w-full h-[40rem] relative  earn-section flex_col_center p-12 ">
+      <div className=" mx-auto w-full h-[50%] relative  flex_col_center pr-2">
         <div className="text-center flex_col_center">
           <h2 className="mb-10 text-3xl font-bold leading-tight">
             রিকশার মাধ্যমে আয় করুন

@@ -10,6 +10,7 @@ import Signup from "./components/Signup";
 import RickshawpullerRegistration from "./components/RickshawpullerRegistration";
 import RiderTracker from "./components/RiderTracker";
 import RickshawpullerDashboard from "./components/RickshawpullerDashboard";
+import Footer from "./components/Footer";
 
 const App = () => {
   const base="/";
@@ -42,6 +43,7 @@ console.log(currentLanguage)
           <Route path="/rickshawpuller-tracking" element={<RiderTracker currentLanguage={currentLanguage} />} />
           <Route path="/rickshawpuller-dashboard" element={<RickshawpullerDashboard currentLanguage={currentLanguage} />} />
         </Routes>
+        <Footer/>
       </Router>
     </>
   );

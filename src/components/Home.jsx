@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import FunFacts from "./FunFacts";
 import EarnSection from "./EarnSection";
 import TrackingProcess from "./TrackingProcess";
+import FAQ from "./FAQ";
 // import TrigonometryQuiz from "./TrigonometryQuiz";
 
 const Home = ({currentLanguage}) => {
@@ -58,6 +59,7 @@ const Home = ({currentLanguage}) => {
   <FunFacts/>
   <EarnSection/>
   <TrackingProcess/>
+  <FAQ/>
   {/* <DemandVsMonthsChart data={data}/> */}
     {/* <RiderTracker/> */}
     {/* <TrigonometryQuiz/> */}

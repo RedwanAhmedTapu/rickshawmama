@@ -188,13 +188,13 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
 
   return (
     <>
-      <div className="w-full h-screen flex_col_center relative top-8 gap-y-4">
-        <div className="w-full h-[10] flex_center rel text-xl md:text-3xl text-[#F8A339] font-extralight">
+      <div className="w-full h-screen flex_col_center  relative top-8 gap-y-4 ">
+        <div className="w-full h-[10]  flex_center rel text-xl md:text-3xl text-[#4c7ce4] font-extralight">
           {currentLanguage === "en"
             ? " Look over your rider on the map"
             : " আপনার রাইডারকে ম্যাপে দেখুন"}
         </div>
-        <div className="w-[95%] h-[80%] overflow-auto">{mapContainer}</div>
+        <div className="w-[95%] h-[80%] rounded-lg border-4 border-slate-800 overflow-auto">{mapContainer}</div>
       </div>
     </>
   );
