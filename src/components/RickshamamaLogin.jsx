@@ -152,11 +152,11 @@ const RickshamamaLogin = ({currentLanguage}) => {
   // };
 
   return (
-    <div className="w-full h-screen text-white max-[800px]:flex_col_center flex_center">
-      <div className="flex_center max-[650px]:w-full w-[50%] h-full ">
+    <div className="w-full h-screen text-white max-[800px]:flex_col_center flex_center bg-[#18324D] opacity-95">
+      {/* <div className="flex_center max-[650px]:w-full w-[50%] h-full ">
         <img src={WhiteRickshaw} className="w-[100%] h-[100%]  " />
-      </div>
-      <div className="flex_center max-[650px]:w-full w-[50%] h-full ">
+      </div> */}
+      <div className="flex_center max-[650px]:w-full w-full h-full ">
         <div className="loginrightDiv w-72 h-96 flex_col_around bg-slate-100 relative rounded-lg shadow-2xl shadow-slate-300 ">
           <div className="w-full h-12 text-start text-4xl text-[#3C1263] font-extrabold pl-4 ">
           {currentLanguage === "en" ? "sign in" : "সাইন ইন "}

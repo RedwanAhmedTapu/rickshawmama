@@ -10,7 +10,7 @@ const Nav = ({ currentLanguage, switchLanguage }) => {
 
   return (
     <div
-      className={`w-full h-24 flex justify-around fixed  top-4 z-50 ${
+      className={`w-full h-24 flex justify-around fixed    top-0 z-50 ${
         isMenuOpen ? "h-screen" : ""
       }`}
     >

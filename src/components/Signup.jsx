@@ -146,8 +146,8 @@ const Signup = ({currentLanguage}) => {
   };
 
   return (
-    <div className="w-full h-screen flex_center max-[500px]:relative max-[500px]:top-12    overflow-hidden ">
-      <div className="sm:w-[70%] sm:h-[70%]  w-[90%] h-[90%]  flex_col_center gap-y-16  rounded-lg shadow-md shadow-slate-950 relative p-4">
+    <div className="w-full h-screen bg-[#18324D] flex_center max-[500px]:relative     overflow-hidden ">
+      <div className="sm:w-[70%] sm:h-[70%]  w-[90%] h-[90%]  flex_col_center gap-y-16  rounded-lg shadow-md shadow-slate-950 relative p-4 pt-8">
         <div className="w-full h-12 flex_center max-[323px]:text-[1rem] text-xl md:text-4xl font-mono text-white font-bold">
         {currentLanguage === "en" ? "create account as a user" : " ব্যবহারকারী হিসেবে অ্যাকাউন্ট তৈরি করুন"}
         </div>
@@ -240,7 +240,7 @@ const Signup = ({currentLanguage}) => {
         </div>
       </div>
       {isOtp && (
-        <div className="w-full h-full flex_center mt-20">
+        <div className="w-full h-screen flex_center  absolute ">
           <div className=" bg-slate-900 rounded-lg">
             <div className="max-w-md mx-auto p-4  rounded-lg shadow-md">
               <h2 className="text-xl font-semibold mb-4 text-center text-white">

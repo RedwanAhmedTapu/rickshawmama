@@ -6,6 +6,8 @@ import Star from "../imgs/star.png";
 // import RiderTracker from "./RiderTracker";
 import { useNavigate } from "react-router-dom";
 import FunFacts from "./FunFacts";
+import EarnSection from "./EarnSection";
+import TrackingProcess from "./TrackingProcess";
 // import TrigonometryQuiz from "./TrigonometryQuiz";
 
 const Home = ({currentLanguage}) => {
@@ -29,13 +31,14 @@ const Home = ({currentLanguage}) => {
   
   return (
     <>
-     <div className="w-[55rem] h-[40rem] rotate-180 fixed -top-52 -right-44    overflow-hidden">
+    <div className="w-full h-screen bg-[#18324D] overflow-hidden">
+     {/* <div className="w-[55rem] h-[40rem] rotate-180 fixed -top-52 -right-44    overflow-hidden">
         <img src={Corona} className="w-full h-full   " />
       </div>
-      <div className="w-[55rem] h-[40rem] rotate-180 fixed  -top-[22rem] -left-[27rem]    overflow-hidden">
+      <div className="w-[55rem] h-[40rem] rotate-180 fixed  -top-[22rem] -left-[27rem]     overflow-hidden">
         <img src={Star} className="w-full h-full   " />
-      </div>
-    <div className="w-screen  h-screen   bg-transparent relative top-[5rem] right-0  max-[999px]:flex_col_center flex_center  ">
+      </div> */}
+    <div className="w-screen  h-screen   bg-transparent relative top-[0] right-0  max-[999px]:flex_col_center flex_center  ">
       <div className=" max-[999px]:w-full w-[50%] h-full flex_col_center gap-y-16">
         <div className="text-[#F8A339] max-[459px]:text-4xl text-5xl lg:text-6xl font-bold uppercase"> {currentLanguage === "en" ? "Rickshawmama" : "রিকশামামা"}</div>
         <div className="w-96 h-24 max-[390px]:w-64 flex_center justify-start gap-x-4 z-20">
@@ -49,9 +52,12 @@ const Home = ({currentLanguage}) => {
       </div>
 
     </div>
+    </div>
     
    
   <FunFacts/>
+  <EarnSection/>
+  <TrackingProcess/>
   {/* <DemandVsMonthsChart data={data}/> */}
     {/* <RiderTracker/> */}
     {/* <TrigonometryQuiz/> */}

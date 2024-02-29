@@ -12,7 +12,7 @@ const LoginChoice = ({currentLanguage}) => {
   };
 
   return (
-    <div className="w-full h-screen flex_center">
+    <div className="w-full h-screen flex_center bg-[#18324D]">
       <div className="w-[50%] h-1/2 flex_col_center gap-y-8">
         <button
           onClick={() => handleLogin("rider")}
