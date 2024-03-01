@@ -214,7 +214,7 @@ const RickshamamaLogin = ({currentLanguage}) => {
             </GoogleOAuthProvider>
           </div> */}
           <div
-            className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg "
+            className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg  cursor-pointer"
             onClick={handleSubmit}
           >
              {currentLanguage === "en" ? "sign in" : "সাইন ইন "}

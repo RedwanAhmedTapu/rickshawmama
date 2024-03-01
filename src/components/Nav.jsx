@@ -58,7 +58,7 @@ const Nav = ({ currentLanguage, switchLanguage }) => {
       <div
         className={`${
           isMenuOpen
-            ? "w-full h-screen transition-all divide-y-2 duration-1000 absolute top-12 bg-[#000] opacity-80 z-50 filter brightness-200 flex-col justify-evenly items-start min-[760px]:hidden"
+            ? "w-full h-screen transition-all divide-y-2 duration-1000 absolute top-12 bg-[#18324D] z-50 filter brightness-200 flex-col justify-evenly items-start min-[760px]:hidden"
             : "h-0"
         }`}
       >

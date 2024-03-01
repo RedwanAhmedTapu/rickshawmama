@@ -1,57 +1,53 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
-import LocationIcon from "../imgs/location.png";
+import LocationIcon from "../imgs/location-animated-logo.svg";
 import UserLocationIcon from "../imgs/userLocationMarker.png";
-import RickhswpullerLocationIcon from "../imgs/location-animated-logo.svg";
+import RickhswpullerLocationIcon from "../imgs/rickshawlogin.svg";
+import io from "socket.io-client";
 import "leaflet/dist/leaflet.css";
 
 const RoadTrackingSystem = ({ currentLanguage }) => {
   const [position, setPosition] = useState([23.6079, 89.8415]);
   const [rickshawPullers, setRickshawPullers] = useState([]);
-  const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
-    useState([]);
+  // const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
+  //   useState([]);
+  const [pullerRoute, setPullerRoute] = useState(false);
+  const [isRickshawmama, setRickshawmama] = useState(false);
+  const [selectedPullerId, setSelectedPullerId] = useState(null);
 
   const customIcon = new Icon({
-    iconUrl: LocationIcon,
-    iconSize: [52, 52],
+    iconUrl: RickhswpullerLocationIcon,
+    iconSize: [100, 100],
   });
   const userLocationIcon = new Icon({
     iconUrl: UserLocationIcon,
     iconSize: [52, 52],
   });
   const rickshawpullerLocationIcon = new Icon({
-    iconUrl: RickhswpullerLocationIcon,
+    iconUrl: LocationIcon,
     iconSize: [100, 100],
   });
 
-  // const serverUrl = "http://localhost:5001";
+  const updateRouteOfRickshawPuller = (pullerId) => {
+    setPullerRoute(true);
+    setSelectedPullerId(pullerId);
+  };
   const serverUrl = process.env.SERVER_URL;
 
-  const updateRouteOfRickshawPuller = (pullerId) => {
-    const updatedRoute = rickshawPullers
-      .map((puller) => {
-        if (puller && puller.nid === pullerId && puller.location) {
-          console.log(puller);
-          const route = puller.route;
-          console.log(puller.route);
-          setSelectedRickshawPullerRoute(puller.route);
+  useEffect(() => {
+    const socket = io(serverUrl);
 
-          return route;
-        }
-        return null;
-      })
-      .filter(Boolean);
-  };
-  selectedRickshawPullerRoute.map((route, index) => {
-    console.log(`Route ${index + 1}:`, route);
-  });
+    socket.on("connect", () => {
+      console.log("WebSocket connection established");
+      // Send notification to pullers
+      socket.emit("userVisitedTrackingPage");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const checkRickshawPullers = async (location) => {
     try {
@@ -63,7 +59,6 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
         body: JSON.stringify({
           lat: location.lat,
           lon: location.lon,
-          socketId: location.socketId,
         }),
       });
 
@@ -71,12 +66,19 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       } else {
         const responseData = await response.json();
-        setRickshawPullers(responseData);
+        if (responseData.length <= 0) {
+          setRickshawmama(true);
+        }
+        const permittedPullers = responseData.filter(
+          (puller) => puller.ispermitted === true
+        );
+        setRickshawPullers(permittedPullers);
       }
     } catch (error) {
       console.error("Error checking rickshaw pullers:", error);
     }
   };
+  // isRickshawmama && alert("no rickshawmama avilable at now");
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -130,7 +132,14 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
                   puller.location.coordinates[1],
                   puller.location.coordinates[0],
                 ]}
-                icon={rickshawpullerLocationIcon}
+                icon={
+                  puller.nid === selectedPullerId
+                    ? customIcon
+                    : rickshawpullerLocationIcon
+                }
+                onClick={() => {
+                  updateRouteOfRickshawPuller(puller.nid);
+                }}
               >
                 <Popup>
                   <div
@@ -155,46 +164,24 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
                   </div>
                 </Popup>
               </Marker>
-
-             {/* {selectedRickshawPullerRoute && selectedRickshawPullerRoute.map((route, index) => (
-    <Polyline
-        positions={[
-            position,
-            [route.coordinates[0], route.coordinates[1]],
-        ]}
-        key={index}
-        color="blue"
-    />
-))} */}
-
-
-              <Polyline
-                positions={
-                  selectedRickshawPullerRoute &&
-                  selectedRickshawPullerRoute.map((point) => [
-                   
-                    point.coordinates[0],
-                    point.coordinates[1],
-                  ])
-                }
-                color="blue"
-              />
             </React.Fragment>
           ))}
       </MapContainer>
     ),
-    [position, rickshawPullers, selectedRickshawPullerRoute]
+    [position, rickshawPullers, selectedPullerId]
   );
 
   return (
     <>
       <div className="w-full h-screen flex_col_center  relative top-8 gap-y-4 ">
-        <div className="w-full h-[10]  flex_center rel text-xl md:text-3xl text-[#4c7ce4] font-extralight">
+        <div className="w-full h-[10]  flex_center rel text-xl md:text-3xl text-[#4c7ce4] font-bold">
           {currentLanguage === "en"
             ? " Look over your rider on the map"
             : " আপনার রাইডারকে ম্যাপে দেখুন"}
         </div>
-        <div className="w-[95%] h-[80%] rounded-lg border-4 border-slate-800 overflow-auto">{mapContainer}</div>
+        <div className="w-[95%] h-[80%] rounded-lg border-4 border-slate-800 overflow-auto">
+          {mapContainer}
+        </div>
       </div>
     </>
   );

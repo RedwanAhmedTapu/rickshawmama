@@ -2,7 +2,7 @@ import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
 
 const Footer = () => {
   return (
-    <footer className="w-full h-96 bg-gray-900 text-white py-8 relative top-20 flex_center">
+    <footer className="w-full h-96 bg-gray-900 text-white py-8 relative   flex_center">
       <div className="container w-11/12 md:w-3/4 mx-auto flex flex-col md:flex-row justify-between items-center gap-x-2">
         <div className="flex flex-col items-center md:items-start mb-4 md:mb-0">
           <h2 className="text-2xl font-bold mb-2">Rickshaw Mama</h2>

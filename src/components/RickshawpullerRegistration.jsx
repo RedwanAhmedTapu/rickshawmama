@@ -139,6 +139,7 @@ const RickshawpullerRegistration = ({currentLanguage}) => {
       formData.append("photo", file);
 
       const response = await axios.post(`${server}${endpoint}`, formData);
+      console.log(response.data.imageUrl)
 
       return response.data.imageUrl;
     } catch (error) {
@@ -189,11 +190,11 @@ const RickshawpullerRegistration = ({currentLanguage}) => {
   };
 
   return (
-    <div className="w-full h-full flex_start absolute top-24">
-      <div className="container mx-auto mt-8 h-44 max-[500px]:p-4">
+    <div className="w-full min-h-screen flex_center relative ">
+      <div className="container mx-auto mt-8 h-full max-[500px]:p-4">
         <form
           onSubmit={handleSubmit}
-          className="max-w-lg max-h-[30rem] mx-auto overflow-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent bg-white p-8 border rounded-md shadow-md"
+          className="max-w-lg max-h-[30rem] bg-white mx-auto overflow-auto scrollbar-thin scrollbar-thumb-transparent scrollbar-track-transparent  p-8 border rounded-md shadow-md"
         >
           <h2 className="text-2xl font-semibold mb-4">
           {currentLanguage === "en" ? "Rickshawmam Registration" : "রিকশামামা নিবন্ধন "}
