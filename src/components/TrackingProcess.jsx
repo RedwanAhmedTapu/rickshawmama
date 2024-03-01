@@ -32,8 +32,8 @@ const TrackingProcess = () => {
 
         </div>
       </div>
-      <div className="w-full h-1/2 md:w-1/2 md:h-[30rem] bg-slate-400 rounded-lg relative overflow-hidden">
-        <video loop autoPlay muted ref={videoRef} src={rickshawmamavideo} className="absolute inset-0 w-full h-full object-cover rounded-lg" />
+      <div className="w-full h-1/2 md:w-1/2 md:h-[30rem] flex_center rounded-lg relative overflow-hidden ">
+        <video loop autoPlay muted ref={videoRef} src={rickshawmamavideo} className="absolute inset-0 w-[95%] h-[95%] object-cover rounded-lg" />
       </div>
     </div>
   );

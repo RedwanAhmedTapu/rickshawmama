@@ -217,7 +217,7 @@ const Login = ({currentLanguage}) => {
               </div>
             </GoogleOAuthProvider>
           </div>
-          <div className="w-[60%] h-8 flex_center text-gray-50 font-medium bg-[#3e3eea] rounded-lg " onClick={handleSubmit}>
+          <div className="w-[60%] h-8 flex_center cursor-pointer text-gray-50 font-medium bg-[#3e3eea] rounded-lg " onClick={handleSubmit}>
            
           {currentLanguage === "en" ? "sign in" : "সাইন ইন "}
           </div>

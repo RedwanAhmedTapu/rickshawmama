@@ -49,7 +49,7 @@ const FunFacts = () => {
   };
 
   return (
-    <div className="w-full h-[35rem] relative md:h-44 bg-[#18324D] flex items-center justify-center">
+    <div className="w-full h-[35rem] z-10 relative md:h-44 bg-[#18324D] flex items-center justify-center">
       <div className="grid w-[80%] md:w-[60%] relative top-16 divide-x-2 place-items-center grid-cols-1 md:grid-cols-3 rounded-md bg-slate-50">
         <div id="rickshawCount" className="bg-white w-[100%] flex flex-col gap-y-4 items-center justify-center rounded-t-md rounded-b-md h-44 shadow-md p-2">
           <h2 className="text-3xl font-bold text-blue-500">{rickshawCount.toFixed(1)+"+হাজার"}</h2>

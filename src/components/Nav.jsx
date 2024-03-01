@@ -14,7 +14,7 @@ const Nav = ({ currentLanguage, switchLanguage }) => {
         isMenuOpen ? "h-screen" : ""
       }`}
     >
-      <div className="w-44 h-24 flex justify-between items-center md:max-w-[500px] max-[1000px]:hidden">
+      <div className="w-44 h-24 flex justify-between  items-center md:max-w-[500px] max-[1000px]:hidden">
         <div className="w-1/2 h-full flex items-center text-xl  text-white font-bold">
           <Link to="/signup">
             {currentLanguage === "en" ? "Signup" : "নিবন্ধন"}
@@ -37,10 +37,11 @@ const Nav = ({ currentLanguage, switchLanguage }) => {
           <option value="en">English</option>
           <option value="bn">Bengali</option>
         </select>
-
-        <div className="w-16 h-full flex items-center text-xl font-normal text-white uppercase">
-          {currentLanguage === "en" ? "Contact" : "যোগাযোগ"}
-        </div>
+        <Link to="/contact">
+          <div className="w-16 h-full flex items-center text-xl font-normal text-white uppercase cursor-pointer">
+            {currentLanguage === "en" ? "Contact" : "যোগাযোগ"}
+          </div>
+        </Link>
       </div>
 
       {/* Menu Icon */}
@@ -103,13 +104,14 @@ const Nav = ({ currentLanguage, switchLanguage }) => {
               ? "Switch to Bengali"
               : "ইংরেজি চালিয়ে যান"}
           </button>
-
-          <div
-            className="w-16 h-full flex items-center text-xl font-normal filter brightness-200 text-white uppercase"
-            onClick={toggleMenu}
-          >
-            {currentLanguage === "en" ? "Contact" : "যোগাযোগ"}
-          </div>
+          <Link to="/contact">
+            <div
+              className="w-16 h-full flex items-center text-xl font-normal filter brightness-200 text-white uppercase cursor-pointer"
+              onClick={toggleMenu}
+            >
+              {currentLanguage === "en" ? "Contact" : "যোগাযোগ"}
+            </div>
+          </Link>
         </div>
       </div>
     </div>

@@ -231,7 +231,7 @@ const Signup = ({currentLanguage}) => {
           </div>
 
           <div
-            className="w-[60%] max-[500px]:w-full h-10 flex_center self-center rounded-lg text-xl text-gray-900 font-bold bg-[#ffffff]"
+            className="w-[60%] max-[500px]:w-full h-10 flex_center self-center cursor-pointer rounded-lg text-xl text-gray-900 font-bold bg-[#ffffff]"
             onClick={handleSubmit}
           >
                    {currentLanguage === "en" ? "sign up" : " নিবন্ধন করুন"}

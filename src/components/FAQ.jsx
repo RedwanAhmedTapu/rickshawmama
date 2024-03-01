@@ -25,8 +25,8 @@ const FAQ = () => {
               <h3 className="text-lg md:text-xl font-semibold">{qna.question}</h3>
               {expandedId === qna.id ? <FaMinus className="text-gray-600" /> : <FaPlus className="text-gray-600" />}
             </div>
-            <div className={`transition-all duration-500 ${expandedId === qna.id ? 'max-h-[500px] h-auto opacity-100' : 'h-0 opacity-0 overflow-hidden'}`}>
-              <p className="text-gray-600 text-sm md:text-base mt-2">{qna.answer}</p>
+            <div className={`transition-all duration-[0.7s] font-serif ${expandedId === qna.id ? 'max-[500px]:h-32 h-16 text-start opacity-100' : 'h-0 opacity-0 overflow-hidden'}`}>
+              <p className="text-gray-800 text-[1rem] dark:text-gray-600 mt-2">{qna.answer}</p>
             </div>
           </div>
         ))}
