@@ -50,7 +50,7 @@ useEffect(() => {
           <Route path="/rickshawpuller-tracking" element={<RiderTracker currentLanguage={currentLanguage} />} />
           <Route path="/rickshawpuller-dashboard" element={<RickshawpullerDashboard currentLanguage={currentLanguage} />} />
         </Routes>
-        <Footer/>
+        <Footer currentLanguage={currentLanguage}/>
       </Router>
     </>
   );

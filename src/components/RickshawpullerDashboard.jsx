@@ -4,7 +4,7 @@ import axios from "axios";
 import debounce from "lodash/debounce";
 import io from "socket.io-client"; // Import socket.io-client instead of WebSocket
 
-const RickshawpullerDashboard = () => {
+const RickshawpullerDashboard = ({ currentLanguage }) => {
   const [rickshawpullerDetails, setRickshawpullerDetails] = useState(null);
   const [watchingPosition, setWatchingPosition] = useState(false);
   const [connectedUser, setConnectedUser] = useState(null); // State to store the total number of connected users
@@ -153,12 +153,12 @@ const RickshawpullerDashboard = () => {
           <div className="w-full flex_center">
         <div className="w-96 mt-8 flex items-center justify-center bg-gray-200 rounded-lg shadow-lg p-4">
         <h1 className="text-xl text-black ">
-          Total Connected Users: {connectedUser}
+          {currentLanguage === "en" ? "Total Connected Users" : "মোট সংযুক্ত ব্যবহারকারী"}: {connectedUser}
         </h1>
       </div>
       </div>
           <h1 className="text-3xl font-bold mb-4 text-center">
-            Rickshawpuller Dashboard
+            {currentLanguage === "en" ? "Rickshawpuller Dashboard" : "রিকশা চালক ড্যাশবোর্ড"}
           </h1>
 
           {rickshawpullerDetails && (
@@ -172,13 +172,13 @@ const RickshawpullerDashboard = () => {
               )}
               <div>
                 <p className="text-lg max-[500px]:text-[1rem] sm:text-xl font-bold">
-                  Name: {rickshawpullerDetails.name || "N/A"}
+                  {currentLanguage === "en" ? "Name" : "নাম"}: {rickshawpullerDetails.name || "N/A"}
                 </p>
                 <p className="text-lg max-[500px]:text-[1rem] sm:text-xl font-bold">
-                  Phone: {rickshawpullerDetails.phone || "N/A"}
+                  {currentLanguage === "en" ? "Phone" : "ফোন"}: {rickshawpullerDetails.phone || "N/A"}
                 </p>
                 <p className="text-lg max-[500px]:text-[1rem] sm:text-xl font-bold">
-                  NID: {rickshawpullerDetails.nid || "N/A"}
+                  {currentLanguage === "en" ? "NID" : "এনআইডি"}: {rickshawpullerDetails.nid || "N/A"}
                 </p>
               </div>
             </div>
@@ -191,21 +191,21 @@ const RickshawpullerDashboard = () => {
                 className="w-32 h-16 bg-blue-400 hover:bg-blue-300 text-white rounded-sm shadow-lg p-1 text-center"
                 onClick={stopWatchingPosition}
               >
-                Stop Sharing Position
+                {currentLanguage === "en" ? "Stop Sharing Position" : "পজিশন শেয়ারিং বন্ধ করুন"}
               </button>
             ) : (
               <button
                 className="w-32 h-16 bg-blue-400 hover:bg-blue-300 text-white rounded-sm shadow-lg p-1 text-center"
                 onClick={startWatchingPositionDebounced}
               >
-                Start Watching Position
+                {currentLanguage === "en" ? "Start Watching Position" : "পজিশন শেয়ার শুরু করুন"}
               </button>
             )}
             <button
               className="w-32 h-16 bg-blue-400 hover:bg-blue-300 text-white rounded-sm shadow-lg p-1 text-center"
               onClick={deleteRoute}
             >
-              Delete Your Route
+              {currentLanguage === "en" ? "Delete Your Route" : "আপনার রুট মুছুন"}
             </button>
           </div>
         </div>

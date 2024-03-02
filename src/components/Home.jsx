@@ -56,10 +56,10 @@ const Home = ({currentLanguage}) => {
     </div>
     
    
-  <FunFacts/>
-  <EarnSection/>
-  <TrackingProcess/>
-  <FAQ/>
+  <FunFacts currentLanguage={currentLanguage}/>
+  <EarnSection currentLanguage={currentLanguage}/>
+  <TrackingProcess currentLanguage={currentLanguage}/>
+  <FAQ currentLanguage={currentLanguage}/>
   {/* <DemandVsMonthsChart data={data}/> */}
     {/* <RiderTracker/> */}
     {/* <TrigonometryQuiz/> */}

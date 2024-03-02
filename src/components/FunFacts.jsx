@@ -1,6 +1,6 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-const FunFacts = () => {
+const FunFacts = ({ currentLanguage }) => {
   const [rickshawCount, setRickshawCount] = useState(0);
   const [tripCount, setTripCount] = useState(0);
   const [journeyCount, setJourneyCount] = useState(0);
@@ -52,16 +52,28 @@ const FunFacts = () => {
     <div className="w-full h-[35rem] z-10 relative md:h-44 bg-[#18324D] flex items-center justify-center">
       <div className="grid w-[80%] md:w-[60%] relative top-16 divide-x-2 place-items-center grid-cols-1 md:grid-cols-3 rounded-md bg-slate-50">
         <div id="rickshawCount" className="bg-white w-[100%] flex flex-col gap-y-4 items-center justify-center rounded-t-md rounded-b-md h-44 shadow-md p-2">
-          <h2 className="text-3xl font-bold text-blue-500">{rickshawCount.toFixed(1)+"+হাজার"}</h2>
-          <p className="text-lg text-gray-500">রিকশামামা</p>
+          <h2 className="text-3xl font-bold text-blue-500">
+            {currentLanguage === "en" ? rickshawCount.toFixed(1) + "K+" : rickshawCount.toFixed(1) + "হাজার+"}
+          </h2>
+          <p className="text-lg text-gray-500">
+            {currentLanguage === "en" ? "Rickshaw Pullers" : "রিকশামামা"}
+          </p>
         </div>
         <div id="tripCount" className="bg-white w-[100%] flex flex-col gap-y-4 items-center justify-center h-44 shadow-md p-2">
-          <h2 className="text-3xl font-bold text-blue-500">{tripCount.toFixed(1)+"+হাজার"}</h2>
-          <p className="text-lg text-gray-500">সফল ট্রিপ/অর্ডার</p>
+          <h2 className="text-3xl font-bold text-blue-500">
+            {currentLanguage === "en" ? tripCount.toFixed(1) + "K+" : tripCount.toFixed(1) + "হাজার+"}
+          </h2>
+          <p className="text-lg text-gray-500">
+            {currentLanguage === "en" ? "Successful Trips/Orders" : "সফল ট্রিপ/অর্ডার"}
+          </p>
         </div>
         <div id="journeyCount" className="bg-white w-[100%] flex flex-col gap-y-4 items-center justify-center rounded-r-md rounded-b-md h-44 shadow-md p-2">
-          <h2 className="text-3xl font-bold text-blue-500">{journeyCount.toFixed(1)+"+লাখ"}</h2>
-          <p className="text-lg text-gray-500">মানুষের অগ্রযাত্রায়</p>
+          <h2 className="text-3xl font-bold text-blue-500">
+            {currentLanguage === "en" ? journeyCount.toFixed(1) + "M+" : journeyCount.toFixed(1) + "লাখ+"}
+          </h2>
+          <p className="text-lg text-gray-500">
+            {currentLanguage === "en" ? "People's Journeys" : "মানুষের অগ্রযাত্রায়"}
+          </p>
         </div>
       </div>
     </div>
