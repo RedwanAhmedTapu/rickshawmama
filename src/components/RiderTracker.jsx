@@ -1,53 +1,54 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  Polyline,
+} from "react-leaflet";
 import { Icon } from "leaflet";
-import LocationIcon from "../imgs/location-animated-logo.svg";
+import LocationIcon from "../imgs/location.png";
 import UserLocationIcon from "../imgs/userLocationMarker.png";
-import RickhswpullerLocationIcon from "../imgs/rickshawlogin.svg";
-import io from "socket.io-client";
+import RickhswpullerLocationIcon from "../imgs/location-animated-logo.svg";
 import "leaflet/dist/leaflet.css";
 
 const RoadTrackingSystem = ({ currentLanguage }) => {
   const [position, setPosition] = useState([23.6079, 89.8415]);
   const [rickshawPullers, setRickshawPullers] = useState([]);
-  // const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
-  //   useState([]);
-  const [pullerRoute, setPullerRoute] = useState(false);
-  const [isRickshawmama, setRickshawmama] = useState(false);
-  const [selectedPullerId, setSelectedPullerId] = useState(null);
+  const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
+    useState([]);
 
   const customIcon = new Icon({
-    iconUrl: RickhswpullerLocationIcon,
-    iconSize: [100, 100],
+    iconUrl: LocationIcon,
+    iconSize: [52, 52],
   });
   const userLocationIcon = new Icon({
     iconUrl: UserLocationIcon,
     iconSize: [52, 52],
   });
   const rickshawpullerLocationIcon = new Icon({
-    iconUrl: LocationIcon,
+    iconUrl: RickhswpullerLocationIcon,
     iconSize: [100, 100],
   });
 
-  const updateRouteOfRickshawPuller = (pullerId) => {
-    setPullerRoute(true);
-    setSelectedPullerId(pullerId);
-  };
+  // const serverUrl = "http://localhost:5001";
   const serverUrl = process.env.SERVER_URL;
 
-  useEffect(() => {
-    const socket = io(serverUrl);
+  const updateRouteOfRickshawPuller = (pullerId) => {
+    const updatedRoute = rickshawPullers
+      .map((puller) => {
+        if (puller && puller.nid === pullerId && puller.location) {
+          console.log(puller);
+          const route = puller.route;
+          return route;
+        }
+        return null;
+      })
+      .filter(Boolean);
+    console.log(updatedRoute);
 
-    socket.on("connect", () => {
-      console.log("WebSocket connection established");
-      // Send notification to pullers
-      socket.emit("userVisitedTrackingPage");
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+    setSelectedRickshawPullerRoute(updatedRoute);
+  };
 
   const checkRickshawPullers = async (location) => {
     try {
@@ -59,6 +60,7 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
         body: JSON.stringify({
           lat: location.lat,
           lon: location.lon,
+          socketId: location.socketId,
         }),
       });
 
@@ -66,24 +68,23 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
         throw new Error(`HTTP error! Status: ${response.status}`);
       } else {
         const responseData = await response.json();
-        if (responseData.length <= 0) {
-          setRickshawmama(true);
-        }
-        const permittedPullers = responseData.filter(
-          (puller) => puller.ispermitted === true
-        );
-        setRickshawPullers(permittedPullers);
+        setRickshawPullers(responseData);
       }
     } catch (error) {
       console.error("Error checking rickshaw pullers:", error);
     }
   };
-  // isRickshawmama && alert("no rickshawmama avilable at now");
 
   useEffect(() => {
     if ("geolocation" in navigator) {
-      const watchPositionId = navigator.geolocation.watchPosition(
-        (pos) => {
+      const getCurrentPosition = async () => {
+        try {
+          const pos = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+              enableHighAccuracy: true,
+            });
+          });
+
           const { latitude, longitude } = pos.coords;
           setPosition([latitude, longitude]);
 
@@ -91,17 +92,16 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
             lat: latitude,
             lon: longitude,
           });
-        },
-        (error) => {
+        } catch (error) {
           console.error("Error getting current position:", error);
-        },
-        {
-          enableHighAccuracy: true,
         }
-      );
+      };
+
+      getCurrentPosition();
+      const intervalId = setInterval(getCurrentPosition, 2000);
 
       return () => {
-        navigator.geolocation.clearWatch(watchPositionId);
+        clearInterval(intervalId);
       };
     }
   }, []);
@@ -132,18 +132,11 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
                   puller.location.coordinates[1],
                   puller.location.coordinates[0],
                 ]}
-                icon={
-                  puller.nid === selectedPullerId
-                    ? customIcon
-                    : rickshawpullerLocationIcon
-                }
-                onClick={() => {
-                  updateRouteOfRickshawPuller(puller.nid);
-                }}
+                icon={rickshawpullerLocationIcon}
               >
                 <Popup>
                   <div
-                    className="flex flex-col justify-center items-center w-full h-full cursor-pointer"
+                    className="flex flex-col justify-center items-center w-full h-full"
                     onClick={() => {
                       updateRouteOfRickshawPuller(puller.nid);
                     }}
@@ -164,24 +157,30 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
                   </div>
                 </Popup>
               </Marker>
+
+              <Polyline
+                positions={selectedRickshawPullerRoute.length>0 && selectedRickshawPullerRoute[0].map((point) => [
+                  point.coordinates[0],
+                  point.coordinates[1],
+                ])}
+                color="blue"
+              />
             </React.Fragment>
           ))}
       </MapContainer>
     ),
-    [position, rickshawPullers, selectedPullerId]
+    [position, rickshawPullers, selectedRickshawPullerRoute]
   );
 
   return (
     <>
-      <div className="w-full h-screen flex_col_center  relative top-8 gap-y-4 ">
-        <div className="w-full h-[10]  flex_center rel text-xl md:text-3xl text-[#4c7ce4] font-bold">
+      <div className="w-full h-screen flex_col_center relative top-8 gap-y-4">
+        <div className="w-full h-[10] flex_center rel text-xl md:text-3xl text-[#F8A339] font-extralight">
           {currentLanguage === "en"
             ? " Look over your rider on the map"
             : " আপনার রাইডারকে ম্যাপে দেখুন"}
         </div>
-        <div className="w-[95%] h-[80%] rounded-lg border-4 border-slate-800 overflow-auto">
-          {mapContainer}
-        </div>
+        <div className="w-[95%] h-[80%] overflow-auto">{mapContainer}</div>
       </div>
     </>
   );
