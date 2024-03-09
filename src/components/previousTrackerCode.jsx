@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Polyline,
-} from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 import LocationIcon from "../imgs/location-animated-logo.svg";
 import UserLocationIcon from "../imgs/userLocationMarker.png";
@@ -15,13 +9,12 @@ import "leaflet/dist/leaflet.css";
 
 const RoadTrackingSystem = ({ currentLanguage }) => {
   const [position, setPosition] = useState([23.6079, 89.8415]);
-  const [pullerposition, setPullerPosition] = useState(null);
   const [rickshawPullers, setRickshawPullers] = useState([]);
+  // const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
+  //   useState([]);
   const [pullerRoute, setPullerRoute] = useState(false);
   const [isRickshawmama, setRickshawmama] = useState(false);
   const [selectedPullerId, setSelectedPullerId] = useState(null);
-  const [selectedRickshawPullerRoute, setSelectedRickshawPullerRoute] =
-    useState([]);
 
   const customIcon = new Icon({
     iconUrl: RickhswpullerLocationIcon,
@@ -37,23 +30,9 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
   });
 
   const updateRouteOfRickshawPuller = (pullerId) => {
+    setPullerRoute(true);
     setSelectedPullerId(pullerId);
-
-    const updatedRoute = rickshawPullers
-      .map((puller) => {
-        if (puller && puller.nid === pullerId && puller.location) {
-          setPullerRoute(true);
-          console.log(puller)
-          setPullerPosition(puller.location.coordinates);
-          return puller.route;
-        }
-        return null;
-      })
-      .filter(Boolean);
-
-    setSelectedRickshawPullerRoute(updatedRoute);
   };
-
   const serverUrl = process.env.SERVER_URL;
 
   useEffect(() => {
@@ -94,12 +73,12 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
           (puller) => puller.ispermitted === true
         );
         setRickshawPullers(permittedPullers);
-
       }
     } catch (error) {
       console.error("Error checking rickshaw pullers:", error);
     }
   };
+  // isRickshawmama && alert("no rickshawmama avilable at now");
 
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -126,7 +105,7 @@ const RoadTrackingSystem = ({ currentLanguage }) => {
       };
     }
   }, []);
-console.log(position)
+
   const mapContainer = useMemo(
     () => (
       <MapContainer
@@ -185,28 +164,11 @@ console.log(position)
                   </div>
                 </Popup>
               </Marker>
-
-              {pullerposition && (
-                <Polyline
-                  positions={[position, [pullerposition[1],pullerposition[0]]]}
-                  color="blue"
-                />
-              )}
-
-              {selectedRickshawPullerRoute.length > 0 && (
-                <Polyline
-                  positions={selectedRickshawPullerRoute[0].map((point) => [
-                    point.coordinates[0],
-                    point.coordinates[1],
-                  ])}
-                  color="blue"
-                />
-              )}
             </React.Fragment>
           ))}
       </MapContainer>
     ),
-    [position, rickshawPullers, selectedPullerId, selectedRickshawPullerRoute]
+    [position, rickshawPullers, selectedPullerId]
   );
 
   return (
